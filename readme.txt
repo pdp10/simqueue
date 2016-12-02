@@ -7,11 +7,11 @@ year: 2005
 
 
 Object:
-	This is a simulator based on casual temporary cadences.
-	Here, I want to simulate a real queue, like a queue of a post office,
-	where users arrive in a casual order.  When a client arrives, he is
+	This is a queue simulator based on stochastic time events.
+	The aim is to simulate a real queue, like a queue of a post office,
+	where users arrive in a random order. When a client arrives, he is
 	the last one who will be served. (FIFO = First In First Out). In particular
-	there are two stochastic facts:
+	there are two stochastic factors:
 	      1) the time of arrive of a client,
 	      2) the time of a client service.
 	During the time some clients arrive and some others go away.
@@ -25,32 +25,33 @@ About stochastic varibles:
       1) Exponential casual variable;
       2) Triangular casual variable;
       To simulate a continuous stochastic variable, we use the reversed transformation method. 
-      On details, let be X a continuous stochastic variable, so X ~ f(x), where f(x) is its 
-      density function. Let be F(x) its distribution function. Let it be a increase monotonous 
+      In more detail, let X be a continuous stochastic variable, so X ~ f(x), where f(x) is its 
+      density function. Let F(x) be its distribution function. Let f(x) be a increase monotonous 
       function, so F(x) is invertible.
-      We can demonstrate (see "A first course in probability" by Ross for the demonstration) that
+      We can demonstrate that
 	    U = F(X)
-      where U is the uniform stochastic variable. U is exactly F(X) iff X is x, so where
+      where U is the uniform stochastic variable (for a proof, see "A first course in probability" by Ross). 
+      U is exactly F(X) iff X is x, so where
 	    U = F(X = x).
-      In this way, we obtain a casual history for the uniform stochastic variable.
-      Because we are interested in the casual history for the stochastic variable X,
+      Therefore, we obtain a casual history for the uniform stochastic variable.
+      As we are interested in the casual history for the stochastic variable X,
       we must calculate the reverse function:
 	    X = F[-1](U)    (where F[-1] is the reverse function of F).
       
-      P.E. 
-	   1)   Let be X ~ Eb an exponential stochastic variable of parameter b.
+      For instance:
+	   1)   Let X ~ Eb be an exponential stochastic variable of parameter b.
 		Its density function is:
 		    f(x) =  b*e exp(-b*x)   if x >= 0
 			    0		    if x < 0
 		Its distribution function is:
 		    y = F(z) = INTEGRAL( f(z) dz )  from 0 to z
 			     = 1 - e exp(-b*z)
-		    (y is an uniform variable U !!!)
+		    (y is an uniform variable U !!)
 		The reverse function of F(z) is:
 		    z = F[-1](y) = -( ln(1-y) / b )
 		
-		But a random variable rand, computated from every programming language,
-		is a simulated uniform stochastic variable, so we can write
+		As a random variable `rand` is computated from a uniform stochastic variable 
+		in every programming language, we can write
 		    z = -( ln(1 - rand()) / b )
 
 	   2)	As (1) we can obtain a casual history for the triangular stochastic variable.
@@ -129,9 +130,9 @@ Notes:
   1) In this model, the time is expressed in minutes.
   2) When a user leaves the service (Go Away) another is served.
   3) An exponential stochastic variable for input time:
-     	When I ask you the averange number of users per hour, the program convert this number (user/hour) in the 
-    	averange number of users per minute (user/minute). Also, it gives you the averange time of arrive of a new 
-	user (a). This helps you to examine that (a) is the expected value for the first column:
+     	When the average number of users per hour is requested, the program converts this number (user/hour) in the 
+    	average number of users per minute (user/minute). Also, it computes the average time of arrival of a new 
+	user (a). This allows to examine that (a) is the expected value for the first column:
 		where T  is the actual time,
 			n  is the capacity of the queue,
 			t(k) is the time function that returns the time distance from the user_k to the user_(k-1), 
@@ -139,13 +140,13 @@ Notes:
 		we obtain
 			(a)  =  [SUM ( t(k) ) for k = 1 to n ] / n      for n --> infinite (the low of the great numbers)
   4) A triangular stochastic variable for input time:
-     	"The maximum service time" is a misure of the maximum time registered for a service.
-     	Infact this is the b parameter for the triangular casual variable T(a,m,b), where (a,b) is the interval in 
+     	"The maximum service time" is a measure of the maximum time recorded for the service.
+     	In fact this is the b parameter for the triangular casual variable T(a,m,b), where (a,b) is the interval in 
      	which there is the function of density for the variable and m is the mode ("the most common (the mode) 
-     	service time"). The interval (a, b) is (0, b) because at least no client is served (so a is 0). The 
+     	service time"). The interval (a, b) is (0, b) because at least one client must be served (so a is 0). The 
      	mode m is the greatest value assumed by the density function of the triangular stochastic variable.
-	As in the previous note, the averange service time (b) follows the same rule as for (a).
-	Let be the user [24]:	
+	As in the previous note, the average service time (b) follows the same rule as for (a).
+	As example, let us consider user [24]:	
 		x[24] = 69.80473426491487 ,                 
 		y[24] = 150.0365004617665 ,                
 		z[24] = 160.93758814506594 .
@@ -159,8 +160,7 @@ Notes:
 
 
 References:
-	For any reference, you can consult the chapter 6 of the book 'Ricerca Operativa' 
-	by Paolo Malesani, that presents the original idea for this program and
+	For references, chapter 6 of `Ricerca Operativa` by Paolo Malesani offers an overview of simulated queues. 
 	'A first course in probability' by Sheldon M. Ross.
 
 								Piero Dalle Pezze
