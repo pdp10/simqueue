@@ -1,4 +1,3 @@
-#!/bin/bash
 #
 # MIT License
 # 
@@ -23,4 +22,17 @@
 # SOFTWARE.
 
 
-java -cp "SimulatedQueue.jar:." SimulatedQueue
+install:
+	rm -f SimulatedQueue.jar *~
+	javac ./src/*.java -d ./ -classpath ./
+	jar cvf SimulatedQueue.jar ./*.class
+	rm -rf *.class
+	@echo "To execute SimulatedQueue, run ./SimulatedQueue.sh"
+
+doc:
+	javadoc -sourcepath ./src -d ./doc -classpath ./ -windowtitle "Source code documentation for SimulatedQueue" ./src/*.java
+
+clean:
+	rm -f SimulatedQueue.jar
+	rm -rf doc/
+	rm -rf *~
