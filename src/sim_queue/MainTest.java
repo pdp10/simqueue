@@ -38,22 +38,22 @@ public class MainTest {
         Integer num = new Integer(100);
         
         // average number of customers per minute?
-        Double bC1 = new Double(7.8);
+        Double expVar_b = new Double(0.3);
         
         // length of the most common (the mode) service time [min]
-        Double mC2 = new Double(45.0);
+        Double triVar_m = new Double(2);
+        
+        // length of the shortest service time [min] (no service)
+        Double triVar_a = new Double(0.0);
         
         // length of the maximum service time [min]
-        Double bC2 = new Double(60.0);
-
-        // length of the shortest service time [min] (no service)
-        Double aC2 = new Double(0.0);
+        Double triVar_b = new Double(20);
 
         try {
             Q = new SimulatedQueue( num.intValue() );
-            Q.setExponential( bC1.doubleValue() );
+            Q.setExponential( expVar_b.doubleValue() );
 
-            Q.setTriangular( aC2.doubleValue(), mC2.doubleValue(),  bC2.doubleValue() );
+            Q.setTriangular( triVar_a.doubleValue(), triVar_m.doubleValue(),  triVar_b.doubleValue() );
             Q.run();
 
             Q.printHistory();
@@ -72,10 +72,15 @@ public class MainTest {
 
             // write the queue to file
             try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("SimulatedQueue.csv", false)))) {
-                out.println("Time\tArrivalTime\tServiceTime\tLeavingTime");
+//                out.println("Client\tArrivalTime\tServiceTime\tLeavingTime");
+//                for( int j = 0; j < queue[0].length; j++ ) {
+//                    out.println(j + "\t" + queue[0][j] + "\t" + queue[1][j] + "\t" + queue[2][j]);
+//                }
+                out.println("Time\tStartServiceTime\tEndServiceTime");
                 for( int j = 0; j < queue[0].length; j++ ) {
-                    out.println(j + "\t" + queue[0][j] + "\t" + queue[1][j] + "\t" + queue[2][j]);
+                    out.println(queue[0][j] + "\t" + queue[1][j] + "\t" + queue[2][j]);
                 }
+                
             } catch (IOException e) {
                 System.err.println(e);
             }

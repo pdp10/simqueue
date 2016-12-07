@@ -30,9 +30,9 @@ install:
 	@echo "To execute SimulatedQueue, run ./SimulatedQueue.sh"
 
 doc:
-	javadoc -sourcepath ./src -d ./doc -classpath ./ -windowtitle "Source code documentation for SimulatedQueue" ./src/*.java
+	javadoc -sourcepath ./src/sim_queue -d ./doc -classpath ./sim_queue -windowtitle "Source code documentation for SimulatedQueue" ./src/sim_queue/*.java
 
 clean:
 	rm -f SimulatedQueue.jar
-	rm -rf doc/
+	rm -rf doc/ bin/
 	rm -rf *~

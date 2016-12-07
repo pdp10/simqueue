@@ -38,7 +38,7 @@ public class Main {
     public static void main( String[] args ) {
         SimulatedQueue Q = null;
         Integer num = null;
-        Double bC1 = null, aC2 = new Double(0.0), mC2 = null, bC2 = null;
+        Double expVar_b = null, triVar_a = new Double(0.0), triVar_m = null, triVar_b = null;
         BufferedReader in = new BufferedReader( new InputStreamReader( System.in ) );
 
         System.out.print( "\n\t\t*** SIMULATED QUEUE ***\n\n" );
@@ -49,17 +49,17 @@ public class Main {
             Q = new SimulatedQueue( num.intValue() );
 
             System.out.print( "Which is the average number of users in an hour? " );
-            bC1 = new Double( in.readLine() );
-            bC1 = new Double( bC1.doubleValue() / 60 );
-            Q.setExponential( bC1.doubleValue() );
+            expVar_b = new Double( in.readLine() );
+            expVar_b = new Double( expVar_b.doubleValue() / 60 );
+            Q.setExponential( expVar_b.doubleValue() );
 
             System.out.print( "How long is the most common (the mode) service time (minutes)? " );
-            mC2 = new Double( in.readLine() );	    
+            triVar_m = new Double( in.readLine() );	    
 
             System.out.print( "How long is the maximum service time (minutes)? " );
-            bC2 = new Double( in.readLine() );
+            triVar_b = new Double( in.readLine() );
 
-            Q.setTriangular( aC2.doubleValue(), mC2.doubleValue(),  bC2.doubleValue() );
+            Q.setTriangular( triVar_a.doubleValue(), triVar_m.doubleValue(),  triVar_b.doubleValue() );
             Q.run();
 
             System.out.println( "\nCasual history of the cadence times of the simulated queue (FIFO):\n" );

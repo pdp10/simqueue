@@ -26,19 +26,17 @@ package sim_queue;
 import java.util.*;
 
 
-/** This program is a simulation based on casual temporary cadences.
- *  Here, I want to simulate a real queue, like a queue of a post office,
- *  where users arrive in a casual order.  When a client arrives, he is
- *  the last one who will be served. (FIFO = First In First Out). In particular
- *  there are two stochastic facts:
- *  1) the time of arrive of a client,
- *  2) the time of a client service.
- *  During the time some clients arrive and some others go away.
- *  A simulation of this reality is to show when a person arrives, starts to be
- *  served and then leaves the server.    
- *  For any reference, you can consult 'Ricerca Operativa' by Paolo Malesani
- *  chapter 6 that is the original idea of this program. 
-*/
+/** 
+ * This is a queue simulator based on stochastic time events.
+ * The aim is to simulate a real queue, like a queue at the post office,
+ * where users arrive in a random order. When a client arrives, s/he is
+ * the last one who will be served. (FIFO = First In First Out). In particular
+ * there are two stochastic factors:
+ * 1) the time of arrive,
+ * 2) the time of service.
+ * Meanwhile, clients arrive and others leave.
+ * This simulation shows when a person arrives, is ready to be served, and finally leaves.    
+ */
 public class SimulatedQueue implements Runnable {
 
     private double[][] queue; // the casual history 
@@ -51,12 +49,12 @@ public class SimulatedQueue implements Runnable {
 	t1 = 0.0,            // time: it shows when the next client will arrive 
 	t2 = 999999999.9,    // time: it shows when has finished his activity
 	limit = 999999999.9, //infinite
-	c1,                  // exponential casual variable
-	c2,                  // triangular casual variable
-	bC1 = 0.0,           // parameter b of c1
-	aC2 = 0.0,           // parameter a of c2
-	mC2 = 0.0,           // parameter m of c2 the mode
-	bC2 = 0.0,           // parameter b of c2
+	expVar,                  // exponential casual variable
+	triVar,                  // triangular casual variable
+	expVar_b = 0.0,           // parameter b of expVar
+	triVar_a = 0.0,           // parameter a of triVar
+	triVar_m = 0.0,           // parameter m of triVar the mode
+	triVar_b = 0.0,           // parameter b of triVar
 	// statistics after the simulation
 	averageArrive = 0.0,
 	varianceArrive = 0.0,
@@ -72,25 +70,25 @@ public class SimulatedQueue implements Runnable {
 
     //SET STHOCASTIC VARIABLES
     /** Return a triangular casual variable. */
-    protected double generateTriangular() {
+    public double generateTriangular() {
         double y = rand.nextDouble();
-        if( y < ((mC2 - aC2) / (bC2 - aC2)) )
-            c2 = aC2 + Math.sqrt( (bC2-aC2)*(mC2-aC2)*y );
+        if( y < ((triVar_m - triVar_a) / (triVar_b - triVar_a)) )
+            triVar = triVar_a + Math.sqrt( (triVar_b-triVar_a)*(triVar_m-triVar_a)*y );
         else
-            c2 = bC2 - Math.sqrt( (bC2-aC2)*(bC2-mC2)*(1-y) );
-        return c2;
+            triVar = triVar_b - Math.sqrt( (triVar_b-triVar_a)*(triVar_b-triVar_m)*(1-y) );
+        return triVar;
     }
 
     /** Return an exponential casual variable. */
-    protected double generateExponential() {
+    public double generateExponential() {
         //generate exponential casual variable
-        c1 = - ( Math.log( 1-rand.nextDouble() ) / bC1 );
-        return c1;
+        expVar = - ( Math.log( 1-rand.nextDouble() ) / expVar_b );
+        return expVar;
     }
 
     //SET THE STATISTICS
-    /** It sets the simulated average time of a new user arrive . */
-    protected double setAverageArrive() {
+    /** Set the simulated average time of a new user arrive . */
+    public double setAverageArrive() {
         double ave = 0.0;              // average
         for( int i = 1; i < n; i++ )
             ave += queue[0][i] - queue[0][i-1];
@@ -98,20 +96,20 @@ public class SimulatedQueue implements Runnable {
         return ave;
     }
 
-    /** It sets the simulated variance of the time of a new user arrive . */
-    protected double setVarianceArrive() { 
+    /** Set the simulated variance of the time of a new user arrive . */
+    public double setVarianceArrive() { 
         double b = 1 / setAverageArrive();
         return 1 / (b * b);
     }
 
-    /** It sets the simulated standard deviation of 
+    /** Set the simulated standard deviation of 
      *  the time of a new user arrive . */
-    protected double setSDArrive() { 
+    public double setSDArrive() { 
         return Math.sqrt( setVarianceArrive() ); 
     }
 
     /** Return the simulated average service time. */
-    protected double setAverageServiceTime() {
+    public double setAverageServiceTime() {
         double ave = 0.0;              // average
         for( int i = 0; i < n; i++ )
             ave += queue[2][i] - queue[1][i];
@@ -119,8 +117,8 @@ public class SimulatedQueue implements Runnable {
         return ave;
     }
 
-    /** It sets the maximum simulated service time. */
-    protected double setMaximumServiceTime() {
+    /** Set the maximum simulated service time. */
+    public double setMaximumServiceTime() {
         double max = 0.0, temp = 0.0;
         for( int i = 0; i < n; i++ ) {
             temp = queue[2][i] - queue[1][i];
@@ -130,8 +128,8 @@ public class SimulatedQueue implements Runnable {
         return max;
     }
 
-    /** It sets the minimum simulated service time. */
-    protected double setMinimumServiceTime() {
+    /** Set the minimum simulated service time. */
+    public double setMinimumServiceTime() {
         double min = queue[2][0] - queue[1][0], temp = 0.0;
         for( int i = 1; i < n; i++ ) {
             temp = queue[2][i] - queue[1][i];
@@ -141,8 +139,8 @@ public class SimulatedQueue implements Runnable {
         return min;
     }
 
-    /* It sets the simulated variance service time. */
-    protected double setVarianceServiceTime() {
+    /** Set the simulated variance service time. */
+    public double setVarianceServiceTime() {
         double 
             ave = setAverageServiceTime(),
             min = setMinimumServiceTime(),
@@ -151,8 +149,8 @@ public class SimulatedQueue implements Runnable {
         return ((max - min)*(max - min) - (mode - min)*(max - mode)) / 18;
     }
 
-    /* It sets the simulated standard deviation of the service time. */
-    protected double setSDServiceTime() { 
+    /** Set the simulated standard deviation of the service time. */
+    public double setSDServiceTime() { 
         return Math.sqrt( setVarianceServiceTime() ); 
     }
 
@@ -184,24 +182,24 @@ public class SimulatedQueue implements Runnable {
         return limit; 
     }
 
-    /** It sets the parameter b of the exponential casual variable. 
+    /** Set the parameter b of the exponential casual variable. 
      *  b parameter must be  > 0. 
      *	@throws ExponentialException if b < 0. */
     public void setExponential( double b ) throws ExponentialException {
         if( b > 0 )
-            bC1 = b;
+            expVar_b = b;
         else
             throw new ExponentialException();
     }
 
-    /** It sets the parameters a, m, b of the triangular casual variable. 
+    /** Set the parameters a, m, b of the triangular casual variable. 
      *  a <= m <= b and a < b. 
      *  @throws TriangularException if not a <= m <= b or not a < b. */
     public void setTriangular( double a, double m, double b ) throws TriangularException { 
         if( a <= m && m <= b && a < b ) {
-            aC2 = a;
-            mC2 = m;
-            bC2 = b;
+            triVar_a = a;
+            triVar_m = m;
+            triVar_b = b;
         } else
             throw new TriangularException();
     }
@@ -235,44 +233,44 @@ public class SimulatedQueue implements Runnable {
     /** Return the error between the simulated and the 
      *  real average time of a new user arrive. */
     public double averageArriveError() { 
-        return Math.abs( (1 / bC1) - averageArrive ); 
+        return Math.abs( (1 / expVar_b) - averageArrive ); 
     }
 
     /** Return the error between the simulated and the 
      *  real variance of the time of a new user arrive. */
     public double varianceArriveError() { 
-        return Math.abs( ( 1 / ( bC1 * bC1 ) ) - varianceArrive ); 
+        return Math.abs( ( 1 / ( expVar_b * expVar_b ) ) - varianceArrive ); 
     }
 
     /** Return the error between the simulated and the 
      *  real standard deviation of the time of a new user arrive. */
     public double sdArriveError() { 
-        return Math.abs( Math.sqrt( 1 / ( bC1 * bC1 ) ) - sdArrive ); 
+        return Math.abs( Math.sqrt( 1 / ( expVar_b * expVar_b ) ) - sdArrive ); 
     }
 
     /** Return the error between the simulated and the
      *  real maximum service time. */
     public double maximumServiceTimeError() { 
-        return Math.abs( bC2 - maximumServiceTime );  
+        return Math.abs( triVar_b - maximumServiceTime );  
     }
 
     /** Return the error between the simulated and the
      *  real average service time. */
     public double averageServiceTimeError() { 
-        return Math.abs( ( (0 + mC2 + bC2) / 3 ) - averageServiceTime ); 
+        return Math.abs( ( (0 + triVar_m + triVar_b) / 3 ) - averageServiceTime ); 
     }
 
     /** Return the error between the simulated and the 
      *  real variance service time. */
     public double varianceServiceTimeError() {
-        return Math.abs( ( ((bC2-aC2)*(bC2-aC2) - (mC2-aC2)*(bC2-mC2)) / 18 ) - 
+        return Math.abs( ( ((triVar_b-triVar_a)*(triVar_b-triVar_a) - (triVar_m-triVar_a)*(triVar_b-triVar_m)) / 18 ) - 
                 varianceServiceTime ); 
     }
 
     /** Return the error between the simulated and the 
      *  real standard deviation of the service time. */
     public double sdServiceTimeError() { 
-        return Math.abs( Math.sqrt( ((bC2-aC2)*(bC2-aC2) - (mC2-aC2)*(bC2-mC2)) / 18 ) - 
+        return Math.abs( Math.sqrt( ((triVar_b-triVar_a)*(triVar_b-triVar_a) - (triVar_m-triVar_a)*(triVar_b-triVar_m)) / 18 ) - 
                 sdServiceTime ); 
     }
 
@@ -282,45 +280,45 @@ public class SimulatedQueue implements Runnable {
     /** Return the percentual of error between the simulated 
      *  and the real average time of a new user arrive. */
     public double averageArrivePercError() { 
-        return ( averageArriveError() * 100 ) / (1 / bC1);  
+        return ( averageArriveError() * 100 ) / (1 / expVar_b);  
     }
 
     /** Return the percentual of error between the simulated 
      *  and the real variance of the time of a new user arrive. */
     public double varianceArrivePercError() { 
-        return ( varianceArriveError() * 100 ) / ( 1 / ( bC1 * bC1 ) ); 
+        return ( varianceArriveError() * 100 ) / ( 1 / ( expVar_b * expVar_b ) ); 
     }
 
     /** Return the percentual of error between the simulated 
      *  and the real standard deviation of the time of a new user arrive. */
     public double sdArrivePercError() { 
-        return ( sdArriveError() * 100 ) / Math.sqrt( 1 / ( bC1 * bC1 ) ); 
+        return ( sdArriveError() * 100 ) / Math.sqrt( 1 / ( expVar_b * expVar_b ) ); 
     }
 
     /** Return the percentual of error between the simulated 
      *  and the real maximum service time. */
     public double maximumServiceTimePercError() { 
-        return ( maximumServiceTimeError() * 100 ) / bC2;  
+        return ( maximumServiceTimeError() * 100 ) / triVar_b;  
     }
 
     /** Return the percentual of error between the simulated 
      *  and the real average service time. */
     public double averageServiceTimePercError() { 
-        return ( averageServiceTimeError() * 100 ) / ( (0 + mC2 + bC2) / 3 ); 
+        return ( averageServiceTimeError() * 100 ) / ( (0 + triVar_m + triVar_b) / 3 ); 
     }
 
     /** Return the percentual of error between the simulated 
      *  and the real variance service time. */
     public double varianceServiceTimePercError() {
         return ( varianceServiceTimeError() * 100 ) / 
-            ( ((bC2-aC2)*(bC2-aC2) - (mC2-aC2)*(bC2-mC2)) / 18 ); 
+            ( ((triVar_b-triVar_a)*(triVar_b-triVar_a) - (triVar_m-triVar_a)*(triVar_b-triVar_m)) / 18 ); 
     }
 
     /** Return the percentual of error between the simulated 
      *  and the real standard deviation of the service time. */
     public double sdServiceTimePercError() { 
         return ( sdServiceTimeError() * 100 ) / 
-            Math.sqrt( ((bC2-aC2)*(bC2-aC2) - (mC2-aC2)*(bC2-mC2)) / 18 ); 
+            Math.sqrt( ((triVar_b-triVar_a)*(triVar_b-triVar_a) - (triVar_m-triVar_a)*(triVar_b-triVar_m)) / 18 ); 
     }
 
 
@@ -380,15 +378,15 @@ public class SimulatedQueue implements Runnable {
     /** It prints the statistics of the queue using the real parameters of the stochastic variables. */
     public void realStatistics() {
 	    System.out.println("[REAL VALUES]" +
-			       "\n 1- Average arrive time: \t" + ( 1 / bC1 ) + " minutes" +
-			       "\n 2- Variance arrive time: \t" + ( 1 / ( bC1 * bC1 ) ) + " minutes exp(2)" +
-			       "\n 3- Std dev arrive time:  \t" + Math.sqrt( 1 / ( bC1 * bC1 ) ) + " minutes" +
-			       "\n 4- Maximum service time: \t" + bC2 + " minutes" +
-			       "\n 5- Average service time:\t" + ( (0 + mC2 + bC2) / 3 ) + " minutes" +
-			       "\n 6- Variance service time:\t" + ( ((bC2-aC2)*(bC2-aC2) - (mC2-aC2)*(bC2-mC2)) / 18 ) + 
+			       "\n 1- Average arrive time: \t" + ( 1 / expVar_b ) + " minutes" +
+			       "\n 2- Variance arrive time: \t" + ( 1 / ( expVar_b * expVar_b ) ) + " minutes exp(2)" +
+			       "\n 3- Std dev arrive time:  \t" + Math.sqrt( 1 / ( expVar_b * expVar_b ) ) + " minutes" +
+			       "\n 4- Maximum service time: \t" + triVar_b + " minutes" +
+			       "\n 5- Average service time:\t" + ( (0 + triVar_m + triVar_b) / 3 ) + " minutes" +
+			       "\n 6- Variance service time:\t" + ( ((triVar_b-triVar_a)*(triVar_b-triVar_a) - (triVar_m-triVar_a)*(triVar_b-triVar_m)) / 18 ) + 
 			       " minutes exp(2)" +
 			       "\n 7- Std dev service time: \t" + 
-			       Math.sqrt( ((bC2-aC2)*(bC2-aC2) - (mC2-aC2)*(bC2-mC2)) / 18 ) + " minutes");
+			       Math.sqrt( ((triVar_b-triVar_a)*(triVar_b-triVar_a) - (triVar_m-triVar_a)*(triVar_b-triVar_m)) / 18 ) + " minutes");
     }
 
     /** It prints the statistics of the queue using the simulated parameters of the stochastic variables. */
