@@ -58,11 +58,11 @@ public class SimulatedQueue implements Runnable {
 	mC2 = 0.0,           // parameter m of c2 the mode
 	bC2 = 0.0,           // parameter b of c2
 	// statistics after the simulation
-	averangeArrive = 0.0,
+	averageArrive = 0.0,
 	varianceArrive = 0.0,
 	sdArrive = 0.0,
 	maximumServiceTime = 0.0,
-	averangeServiceTime = 0.0,
+	averageServiceTime = 0.0,
 	varianceServiceTime = 0.0,
 	sdServiceTime = 0.0;
     private Random rand;     // the uniform variable
@@ -89,9 +89,9 @@ public class SimulatedQueue implements Runnable {
     }
 
     //SET THE STATISTICS
-    /** It sets the simulated averange time of a new user arrive . */
-    protected double setAverangeArrive() {
-        double ave = 0.0;              // averange
+    /** It sets the simulated average time of a new user arrive . */
+    protected double setAverageArrive() {
+        double ave = 0.0;              // average
         for( int i = 1; i < n; i++ )
             ave += queue[0][i] - queue[0][i-1];
         ave /= n;
@@ -100,7 +100,7 @@ public class SimulatedQueue implements Runnable {
 
     /** It sets the simulated variance of the time of a new user arrive . */
     protected double setVarianceArrive() { 
-        double b = 1 / setAverangeArrive();
+        double b = 1 / setAverageArrive();
         return 1 / (b * b);
     }
 
@@ -110,9 +110,9 @@ public class SimulatedQueue implements Runnable {
         return Math.sqrt( setVarianceArrive() ); 
     }
 
-    /** Return the simulated averange service time. */
-    protected double setAverangeServiceTime() {
-        double ave = 0.0;              // averange
+    /** Return the simulated average service time. */
+    protected double setAverageServiceTime() {
+        double ave = 0.0;              // average
         for( int i = 0; i < n; i++ )
             ave += queue[2][i] - queue[1][i];
         ave /= n;
@@ -144,7 +144,7 @@ public class SimulatedQueue implements Runnable {
     /* It sets the simulated variance service time. */
     protected double setVarianceServiceTime() {
         double 
-            ave = setAverangeServiceTime(),
+            ave = setAverageServiceTime(),
             min = setMinimumServiceTime(),
             max = setMaximumServiceTime(),
             mode = (3 * ave) - min - max;
@@ -208,8 +208,8 @@ public class SimulatedQueue implements Runnable {
     
 
     //RETURN THE STATISTICS
-    /** Return the simulated averange time of a new user arrive . */
-    public double averangeArrive() { return averangeArrive; }
+    /** Return the simulated average time of a new user arrive . */
+    public double averageArrive() { return averageArrive; }
 
     /** Return the simulated variance of the time of a new user arrive . */
     public double varianceArrive() { return varianceArrive; }
@@ -217,8 +217,8 @@ public class SimulatedQueue implements Runnable {
     /** Return the simulated standard deviation of the time of a new user arrive . */
     public double sdArrive() { return sdArrive; }
 
-    /** Return the simulated averange service time. */
-    public double averangeServiceTime() { return averangeServiceTime; }
+    /** Return the simulated average service time. */
+    public double averageServiceTime() { return averageServiceTime; }
 
     /** Return the maximum simulated service time. */
     public double maximumServiceTime() { return maximumServiceTime; }
@@ -233,9 +233,9 @@ public class SimulatedQueue implements Runnable {
 
     //ERRORS
     /** Return the error between the simulated and the 
-     *  real averange time of a new user arrive. */
-    public double averangeArriveError() { 
-        return Math.abs( (1 / bC1) - averangeArrive ); 
+     *  real average time of a new user arrive. */
+    public double averageArriveError() { 
+        return Math.abs( (1 / bC1) - averageArrive ); 
     }
 
     /** Return the error between the simulated and the 
@@ -257,9 +257,9 @@ public class SimulatedQueue implements Runnable {
     }
 
     /** Return the error between the simulated and the
-     *  real averange service time. */
-    public double averangeServiceTimeError() { 
-        return Math.abs( ( (0 + mC2 + bC2) / 3 ) - averangeServiceTime ); 
+     *  real average service time. */
+    public double averageServiceTimeError() { 
+        return Math.abs( ( (0 + mC2 + bC2) / 3 ) - averageServiceTime ); 
     }
 
     /** Return the error between the simulated and the 
@@ -280,9 +280,9 @@ public class SimulatedQueue implements Runnable {
 
     //PERCENTUAL OF ERROR (%)
     /** Return the percentual of error between the simulated 
-     *  and the real averange time of a new user arrive. */
-    public double averangeArrivePercError() { 
-        return ( averangeArriveError() * 100 ) / (1 / bC1);  
+     *  and the real average time of a new user arrive. */
+    public double averageArrivePercError() { 
+        return ( averageArriveError() * 100 ) / (1 / bC1);  
     }
 
     /** Return the percentual of error between the simulated 
@@ -304,9 +304,9 @@ public class SimulatedQueue implements Runnable {
     }
 
     /** Return the percentual of error between the simulated 
-     *  and the real averange service time. */
-    public double averangeServiceTimePercError() { 
-        return ( averangeServiceTimeError() * 100 ) / ( (0 + mC2 + bC2) / 3 ); 
+     *  and the real average service time. */
+    public double averageServiceTimePercError() { 
+        return ( averageServiceTimeError() * 100 ) / ( (0 + mC2 + bC2) / 3 ); 
     }
 
     /** Return the percentual of error between the simulated 
@@ -369,11 +369,11 @@ public class SimulatedQueue implements Runnable {
         }
         end = Calendar.getInstance();
         // save the satistics of the simulation in variables
-        averangeArrive      = setAverangeArrive();
+        averageArrive      = setAverageArrive();
         varianceArrive      = setVarianceArrive();
         sdArrive            = setSDArrive();
         maximumServiceTime  = setMaximumServiceTime();
-        averangeServiceTime = setAverangeServiceTime();
+        averageServiceTime = setAverageServiceTime();
         varianceServiceTime = setVarianceServiceTime();
         sdServiceTime       = setSDServiceTime();
     }
@@ -381,11 +381,11 @@ public class SimulatedQueue implements Runnable {
     /** It prints the statistics of the queue using the real parameters of the stochastic variables. */
     public void realStatistics() {
 	    System.out.println("[REAL VALUES]" +
-			       "\n 1- Averange arrive time: \t" + ( 1 / bC1 ) + " minutes" +
+			       "\n 1- Average arrive time: \t" + ( 1 / bC1 ) + " minutes" +
 			       "\n 2- Variance arrive time: \t" + ( 1 / ( bC1 * bC1 ) ) + " minutes exp(2)" +
 			       "\n 3- Std dev arrive time:  \t" + Math.sqrt( 1 / ( bC1 * bC1 ) ) + " minutes" +
 			       "\n 4- Maximum service time: \t" + bC2 + " minutes" +
-			       "\n 5- Averange service time:\t" + ( (0 + mC2 + bC2) / 3 ) + " minutes" +
+			       "\n 5- Average service time:\t" + ( (0 + mC2 + bC2) / 3 ) + " minutes" +
 			       "\n 6- Variance service time:\t" + ( ((bC2-aC2)*(bC2-aC2) - (mC2-aC2)*(bC2-mC2)) / 18 ) + 
 			       " minutes exp(2)" +
 			       "\n 7- Std dev service time: \t" + 
@@ -395,11 +395,11 @@ public class SimulatedQueue implements Runnable {
     /** It prints the statistics of the queue using the simulated parameters of the stochastic variables. */
     public void simulatedStatistics() {   // + percentuale
         System.out.println("[SIMULATED VALUES]" +
-                "\n 1- Averange arrive time: \t" + averangeArrive + " minutes " +
+                "\n 1- Average arrive time: \t" + averageArrive + " minutes " +
                 "\n 2- Variance arrive time: \t" + varianceArrive + " minutes exp(2) " +
                 "\n 3- Std dev arrive time:  \t" + sdArrive  + " minutes " +
                 "\n 4- Maximum service time: \t" + maximumServiceTime + " minutes " + 
-                "\n 5- Averange service time:\t" + averangeServiceTime + " minutes " + 
+                "\n 5- Average service time:\t" + averageServiceTime + " minutes " + 
                 "\n 6- Variance service time:\t" + varianceServiceTime + " minutes exp(2) " +
                 "\n 7- Std dev service time: \t" + sdServiceTime + " minutes ");
     }
@@ -407,16 +407,16 @@ public class SimulatedQueue implements Runnable {
     /** It prints the relative errors and the percentuals of error between simulated and real statistics. */
     public void errorStatistics() {   // + percentuale
         System.out.println("[RELATIVE ERRORS]" +
-                "\n 1- Averange arrive time error:  \t" + averangeArriveError() + 
-                " minutes       \t[" + averangeArrivePercError() + " %]" +
+                "\n 1- Average arrive time error:  \t" + averageArriveError() + 
+                " minutes       \t[" + averageArrivePercError() + " %]" +
                 "\n 2- Variance arrive time error:  \t" + varianceArriveError() +
                 " minutes exp(2)\t[" + varianceArrivePercError() + " %]" +
                 "\n 3- Std dev arrive time error:   \t" + sdArriveError() +
                 " minutes       \t[" + sdArrivePercError() + " %]" +
                 "\n 4- Maximum service time error:  \t" + maximumServiceTimeError() +
                 " minutes       \t[" + maximumServiceTimePercError() + " %]" +
-                "\n 5- Averange service time error: \t" + averangeServiceTimeError() +
-                " minutes       \t[" + averangeServiceTimePercError() + " %]" +
+                "\n 5- Average service time error: \t" + averageServiceTimeError() +
+                " minutes       \t[" + averageServiceTimePercError() + " %]" +
                 "\n 6- Variance service time error: \t" + varianceServiceTimeError() +
                 " minutes exp(2)\t[" + varianceServiceTimePercError() + " %]" +
                 "\n 7- Std dev service time error:  \t" + sdServiceTimeError() +
