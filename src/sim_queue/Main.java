@@ -36,6 +36,13 @@ public class Main {
      *  triangular and exponential casual variables. Then it prints the stochastic 
      *  history generated. */
     public static void main( String[] args ) {
+    	
+    	String fileout = "SimulatedQueue";
+    	if(args.length > 0) {
+    		fileout = args[0];
+    	}
+    		
+    	
         SimulatedQueue Q = null;
         Integer num = null;
         Double expVar_b = null, triVar_a = new Double(0.0), triVar_m = null, triVar_b = null;
@@ -78,7 +85,7 @@ public class Main {
             double[][] queue = Q.getQueue();
 
             // write the queue to file
-            try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("SimulatedQueue.csv", false)))) {
+            try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileout, false)))) {
                 out.println("Time\tArrivalTime\tServiceTime\tLeavingTime");
                 for( int j = 0; j < queue[0].length; j++ ) {
                     out.println(j + "\t" + queue[0][j] + "\t" + queue[1][j] + "\t" + queue[2][j]);
