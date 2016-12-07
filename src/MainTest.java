@@ -29,7 +29,7 @@ import java.util.*;
 /** 
  * Main class
  */
-public class Main {
+public class MainTest {
 
     /** The main method. In the main body, the programs asks to user the capacity 
      *  of the queue and the parameters for the two stochastic variables used: 
