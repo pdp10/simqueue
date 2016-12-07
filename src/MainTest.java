@@ -61,6 +61,17 @@ public class Main {
 
             Q.setTriangular( aC2.doubleValue(), mC2.doubleValue(),  bC2.doubleValue() );
             Q.run();
+
+            //Q.printHistory();
+            //System.out.println();
+            //Q.realStatistics();
+            //System.out.println();
+            //Q.simulatedStatistics();
+            //System.out.println();
+            //Q.errorStatistics();
+            //System.out.println();
+            //Q.printTime();
+            
             
             // get the queue of events (arrival, service, and leave times)
             double[][] queue = Q.getQueue();
@@ -74,16 +85,7 @@ public class Main {
             } catch (IOException e) {
                 System.err.println(e);
             }
-
-            //Q.printHistory();
-            //System.out.println();
-            //Q.realStatistics();
-            //System.out.println();
-            //Q.simulatedStatistics();
-            //System.out.println();
-            //Q.errorStatistics();
-            //System.out.println();
-            //Q.printTime();
+            
         } 
         catch( SimulatedQueueException e ) { e.getMessage(); e.printStackTrace();}
         catch( TriangularException e ) { e.getMessage(); e.printStackTrace();}

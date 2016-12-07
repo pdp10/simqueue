@@ -72,6 +72,21 @@ public class Main {
             Q.errorStatistics();
             System.out.println();
             Q.printTime();
+            
+            
+            // get the queue of events (arrival, service, and leave times)
+            double[][] queue = Q.getQueue();
+
+            // write the queue to file
+            try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("SimulatedQueue.csv", false)))) {
+                out.println("Time\tArrivalTime\tServiceTime\tLeavingTime");
+                for( int j = 0; j < queue[0].length; j++ ) {
+                    out.println(j + "\t" + queue[0][j] + "\t" + queue[1][j] + "\t" + queue[2][j]);
+                }
+            } catch (IOException e) {
+                System.err.println(e);
+            }
+            
         } 
         catch( IOException e ) { System.out.println("Error: input not read correctly"); }
         catch( NumberFormatException e ) { System.out.println("Error: input must be an integer"); }
