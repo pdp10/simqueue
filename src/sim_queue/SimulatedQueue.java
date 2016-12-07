@@ -66,7 +66,7 @@ public class SimulatedQueue implements Runnable {
     private Random rand;     // the uniform variable
     private Calendar 
 	start = null, 
-	end = null;  //to misure the running time of the simulation
+	end = null;  // measure the running time of the simulation
 
     //SET STHOCASTIC VARIABLES
     /** Return a triangular casual variable. */
@@ -155,7 +155,7 @@ public class SimulatedQueue implements Runnable {
     }
 
 
-    /** Constructor. It builts a queue of capacity = _n. 
+    /** Constructor. Build a queue of size _n. 
      * @throws QueueSimulationException if _n < 1. */
     public SimulatedQueue( int _n ) throws SimulatedQueueException {
         if( _n > 0 ) {
@@ -276,45 +276,45 @@ public class SimulatedQueue implements Runnable {
 
 
 
-    //PERCENTUAL OF ERROR (%)
-    /** Return the percentual of error between the simulated 
+    //percent OF ERROR (%)
+    /** Return the percent of error between the simulated 
      *  and the real average time of a new user arrive. */
     public double averageArrivePercError() { 
         return ( averageArriveError() * 100 ) / (1 / expVar_b);  
     }
 
-    /** Return the percentual of error between the simulated 
+    /** Return the percent of error between the simulated 
      *  and the real variance of the time of a new user arrive. */
     public double varianceArrivePercError() { 
         return ( varianceArriveError() * 100 ) / ( 1 / ( expVar_b * expVar_b ) ); 
     }
 
-    /** Return the percentual of error between the simulated 
+    /** Return the percent of error between the simulated 
      *  and the real standard deviation of the time of a new user arrive. */
     public double sdArrivePercError() { 
         return ( sdArriveError() * 100 ) / Math.sqrt( 1 / ( expVar_b * expVar_b ) ); 
     }
 
-    /** Return the percentual of error between the simulated 
+    /** Return the percent of error between the simulated 
      *  and the real maximum service time. */
     public double maximumServiceTimePercError() { 
         return ( maximumServiceTimeError() * 100 ) / triVar_b;  
     }
 
-    /** Return the percentual of error between the simulated 
+    /** Return the percent of error between the simulated 
      *  and the real average service time. */
     public double averageServiceTimePercError() { 
         return ( averageServiceTimeError() * 100 ) / ( (0 + triVar_m + triVar_b) / 3 ); 
     }
 
-    /** Return the percentual of error between the simulated 
+    /** Return the percent of error between the simulated 
      *  and the real variance service time. */
     public double varianceServiceTimePercError() {
         return ( varianceServiceTimeError() * 100 ) / 
             ( ((triVar_b-triVar_a)*(triVar_b-triVar_a) - (triVar_m-triVar_a)*(triVar_b-triVar_m)) / 18 ); 
     }
 
-    /** Return the percentual of error between the simulated 
+    /** Return the percent of error between the simulated 
      *  and the real standard deviation of the service time. */
     public double sdServiceTimePercError() { 
         return ( sdServiceTimeError() * 100 ) / 
@@ -365,7 +365,7 @@ public class SimulatedQueue implements Runnable {
             }
         }
         end = Calendar.getInstance();
-        // save the satistics of the simulation in variables
+        // save the statistics of the simulation in variables
         averageArrive      = setAverageArrive();
         varianceArrive      = setVarianceArrive();
         sdArrive            = setSDArrive();
@@ -390,7 +390,7 @@ public class SimulatedQueue implements Runnable {
     }
 
     /** It prints the statistics of the queue using the simulated parameters of the stochastic variables. */
-    public void simulatedStatistics() {   // + percentuale
+    public void simulatedStatistics() {   // + percent
         System.out.println("[SIMULATED VALUES]" +
                 "\n 1- Average arrive time: \t" + averageArrive + " minutes " +
                 "\n 2- Variance arrive time: \t" + varianceArrive + " minutes exp(2) " +
@@ -401,8 +401,8 @@ public class SimulatedQueue implements Runnable {
                 "\n 7- Std dev service time: \t" + sdServiceTime + " minutes ");
     }
 
-    /** It prints the relative errors and the percentuals of error between simulated and real statistics. */
-    public void errorStatistics() {   // + percentuale
+    /** It prints the relative errors and the percents of error between simulated and real statistics. */
+    public void errorStatistics() {   // + percent
         System.out.println("[RELATIVE ERRORS]" +
                 "\n 1- Average arrive time error:  \t" + averageArriveError() + 
                 " minutes       \t[" + averageArrivePercError() + " %]" +

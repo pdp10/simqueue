@@ -44,25 +44,25 @@ public class Main {
         System.out.print( "\n\t\t*** SIMULATED QUEUE ***\n\n" );
 
         try {
-            System.out.print( "How is the capacity of the queue that you want to simulate? " );
+            System.out.print( "Enter the queue size: " );
             num = new Integer( in.readLine() );
             Q = new SimulatedQueue( num.intValue() );
 
-            System.out.print( "Which is the average number of users in an hour? " );
+            System.out.print( "Average number of clients per hour: " );
             expVar_b = new Double( in.readLine() );
             expVar_b = new Double( expVar_b.doubleValue() / 60 );
             Q.setExponential( expVar_b.doubleValue() );
 
-            System.out.print( "How long is the most common (the mode) service time (minutes)? " );
+            System.out.print( "Most common service time [min] (the mode): " );
             triVar_m = new Double( in.readLine() );	    
 
-            System.out.print( "How long is the maximum service time (minutes)? " );
+            System.out.print( "Longest service time [min]: " );
             triVar_b = new Double( in.readLine() );
 
             Q.setTriangular( triVar_a.doubleValue(), triVar_m.doubleValue(),  triVar_b.doubleValue() );
             Q.run();
 
-            System.out.println( "\nCasual history of the cadence times of the simulated queue (FIFO):\n" );
+            System.out.println( "\nCasual history of Arrival/Service/Leaving times for this simulated queue (FIFO):\n" );
             Q.printHistory();
             System.out.println();
             Q.realStatistics();
