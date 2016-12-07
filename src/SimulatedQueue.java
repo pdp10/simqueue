@@ -71,7 +71,7 @@ public class SimulatedQueue implements Runnable {
 	end = null;  //to misure the running time of the simulation
 
     //SET STHOCASTIC VARIABLES
-    /** It returns a triangular casual variable. */
+    /** Return a triangular casual variable. */
     protected double generateTriangular() {
         double y = rand.nextDouble();
         if( y < ((mC2 - aC2) / (bC2 - aC2)) )
@@ -81,7 +81,7 @@ public class SimulatedQueue implements Runnable {
         return c2;
     }
 
-    /** It returns an exponential casual variable. */
+    /** Return an exponential casual variable. */
     protected double generateExponential() {
         //generate exponential casual variable
         c1 = - ( Math.log( 1-rand.nextDouble() ) / bC1 );
@@ -110,7 +110,7 @@ public class SimulatedQueue implements Runnable {
         return Math.sqrt( setVarianceArrive() ); 
     }
 
-    /** It returns the simulated averange service time. */
+    /** Return the simulated averange service time. */
     protected double setAverangeServiceTime() {
         double ave = 0.0;              // averange
         for( int i = 0; i < n; i++ )
@@ -169,12 +169,17 @@ public class SimulatedQueue implements Runnable {
     }
 
     //PUBLIC METHODS
-    /** It returns the capacity of the queue. */
+    /** Return the queue of simulated events */
+    public double[][] getQueue() { 
+        return queue; 
+    }
+    
+    /** Return the capacity of the queue. */
     public int getN() { 
         return n; 
     }
 
-    /** It returns the limit used as infinite. Limit value is 999999999.9 . */
+    /** Return the limit used as infinite. Limit value is 999999999.9 . */
     public double getLimit() { 
         return limit; 
     }
@@ -200,72 +205,71 @@ public class SimulatedQueue implements Runnable {
         } else
             throw new TriangularException();
     }
-
-
+    
 
     //RETURN THE STATISTICS
-    /** It returns the simulated averange time of a new user arrive . */
+    /** Return the simulated averange time of a new user arrive . */
     public double averangeArrive() { return averangeArrive; }
 
-    /** It returns the simulated variance of the time of a new user arrive . */
+    /** Return the simulated variance of the time of a new user arrive . */
     public double varianceArrive() { return varianceArrive; }
 
-    /** It returns the simulated standard deviation of the time of a new user arrive . */
+    /** Return the simulated standard deviation of the time of a new user arrive . */
     public double sdArrive() { return sdArrive; }
 
-    /** It returns the simulated averange service time. */
+    /** Return the simulated averange service time. */
     public double averangeServiceTime() { return averangeServiceTime; }
 
-    /** It returns the maximum simulated service time. */
+    /** Return the maximum simulated service time. */
     public double maximumServiceTime() { return maximumServiceTime; }
 
-    /** It returns the simulated variance service time. */
+    /** Return the simulated variance service time. */
     public double varianceServiceTime() { return varianceServiceTime; }
 
-    /** It returns the simulated standard deviation of the service time. */
+    /** Return the simulated standard deviation of the service time. */
     public double sdServiceTime() { return sdServiceTime; }
 
 
 
     //ERRORS
-    /** It returns the error between the simulated and the 
+    /** Return the error between the simulated and the 
      *  real averange time of a new user arrive. */
     public double averangeArriveError() { 
         return Math.abs( (1 / bC1) - averangeArrive ); 
     }
 
-    /** It returns the error between the simulated and the 
+    /** Return the error between the simulated and the 
      *  real variance of the time of a new user arrive. */
     public double varianceArriveError() { 
         return Math.abs( ( 1 / ( bC1 * bC1 ) ) - varianceArrive ); 
     }
 
-    /** It returns the error between the simulated and the 
+    /** Return the error between the simulated and the 
      *  real standard deviation of the time of a new user arrive. */
     public double sdArriveError() { 
         return Math.abs( Math.sqrt( 1 / ( bC1 * bC1 ) ) - sdArrive ); 
     }
 
-    /** It returns the error between the simulated and the
+    /** Return the error between the simulated and the
      *  real maximum service time. */
     public double maximumServiceTimeError() { 
         return Math.abs( bC2 - maximumServiceTime );  
     }
 
-    /** It returns the error between the simulated and the
+    /** Return the error between the simulated and the
      *  real averange service time. */
     public double averangeServiceTimeError() { 
         return Math.abs( ( (0 + mC2 + bC2) / 3 ) - averangeServiceTime ); 
     }
 
-    /** It returns the error between the simulated and the 
+    /** Return the error between the simulated and the 
      *  real variance service time. */
     public double varianceServiceTimeError() {
         return Math.abs( ( ((bC2-aC2)*(bC2-aC2) - (mC2-aC2)*(bC2-mC2)) / 18 ) - 
                 varianceServiceTime ); 
     }
 
-    /** It returns the error between the simulated and the 
+    /** Return the error between the simulated and the 
      *  real standard deviation of the service time. */
     public double sdServiceTimeError() { 
         return Math.abs( Math.sqrt( ((bC2-aC2)*(bC2-aC2) - (mC2-aC2)*(bC2-mC2)) / 18 ) - 
@@ -275,44 +279,44 @@ public class SimulatedQueue implements Runnable {
 
 
     //PERCENTUAL OF ERROR (%)
-    /** It returns the percentual of error between the simulated 
+    /** Return the percentual of error between the simulated 
      *  and the real averange time of a new user arrive. */
     public double averangeArrivePercError() { 
         return ( averangeArriveError() * 100 ) / (1 / bC1);  
     }
 
-    /** It returns the percentual of error between the simulated 
+    /** Return the percentual of error between the simulated 
      *  and the real variance of the time of a new user arrive. */
     public double varianceArrivePercError() { 
         return ( varianceArriveError() * 100 ) / ( 1 / ( bC1 * bC1 ) ); 
     }
 
-    /** It returns the percentual of error between the simulated 
+    /** Return the percentual of error between the simulated 
      *  and the real standard deviation of the time of a new user arrive. */
     public double sdArrivePercError() { 
         return ( sdArriveError() * 100 ) / Math.sqrt( 1 / ( bC1 * bC1 ) ); 
     }
 
-    /** It returns the percentual of error between the simulated 
+    /** Return the percentual of error between the simulated 
      *  and the real maximum service time. */
     public double maximumServiceTimePercError() { 
         return ( maximumServiceTimeError() * 100 ) / bC2;  
     }
 
-    /** It returns the percentual of error between the simulated 
+    /** Return the percentual of error between the simulated 
      *  and the real averange service time. */
     public double averangeServiceTimePercError() { 
         return ( averangeServiceTimeError() * 100 ) / ( (0 + mC2 + bC2) / 3 ); 
     }
 
-    /** It returns the percentual of error between the simulated 
+    /** Return the percentual of error between the simulated 
      *  and the real variance service time. */
     public double varianceServiceTimePercError() {
         return ( varianceServiceTimeError() * 100 ) / 
             ( ((bC2-aC2)*(bC2-aC2) - (mC2-aC2)*(bC2-mC2)) / 18 ); 
     }
 
-    /** It returns the percentual of error between the simulated 
+    /** Return the percentual of error between the simulated 
      *  and the real standard deviation of the service time. */
     public double sdServiceTimePercError() { 
         return ( sdServiceTimeError() * 100 ) / 
@@ -432,7 +436,7 @@ public class SimulatedQueue implements Runnable {
         }
     }
 
-    /** It returns the string of the stochastic history of the queue. */
+    /** Return the string of the stochastic history of the queue. */
     public String toString() {
         String str = "User\tArrived (minutes)\tServed (minutes)\tGo Away (minutes)\n";
         str +=       "----\t-----------------\t----------------\t-----------------\n";
