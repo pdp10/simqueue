@@ -1,3 +1,4 @@
+package sim_queue;
 /*
  * MIT License
  * 
@@ -23,7 +24,6 @@
 */
 
 import java.io.*;
-import java.util.*;
 
 
 /** 
@@ -31,10 +31,6 @@ import java.util.*;
  */
 public class MainTest {
 
-    /** The main method. In the main body, the programs asks to user the capacity 
-     *  of the queue and the parameters for the two stochastic variables used: 
-     *  triangular and exponential casual variables. Then it prints the stochastic 
-     *  history generated. */
     public static void main( String[] args ) {
         SimulatedQueue Q = null;
         
@@ -45,15 +41,13 @@ public class MainTest {
         Double bC1 = new Double(7.8);
         
         // length of the most common (the mode) service time [min]
-        Double mC2 = new Double(35.0);
+        Double mC2 = new Double(45.0);
         
         // length of the maximum service time [min]
         Double bC2 = new Double(60.0);
 
         // length of the shortest service time [min] (no service)
         Double aC2 = new Double(0.0);
-
-        BufferedReader in = new BufferedReader( new InputStreamReader( System.in ) );
 
         try {
             Q = new SimulatedQueue( num.intValue() );
@@ -62,15 +56,15 @@ public class MainTest {
             Q.setTriangular( aC2.doubleValue(), mC2.doubleValue(),  bC2.doubleValue() );
             Q.run();
 
-            //Q.printHistory();
-            //System.out.println();
-            //Q.realStatistics();
-            //System.out.println();
-            //Q.simulatedStatistics();
-            //System.out.println();
-            //Q.errorStatistics();
-            //System.out.println();
-            //Q.printTime();
+            Q.printHistory();
+            System.out.println();
+            Q.realStatistics();
+            System.out.println();
+            Q.simulatedStatistics();
+            System.out.println();
+            Q.errorStatistics();
+            System.out.println();
+            Q.printTime();
             
             
             // get the queue of events (arrival, service, and leave times)

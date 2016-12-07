@@ -1,3 +1,4 @@
+package sim_queue;
 /*
  * MIT License
  * 
@@ -23,7 +24,6 @@
 */
 
 import java.io.*;
-import java.util.*;
 
 
 /** 

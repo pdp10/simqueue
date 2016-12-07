@@ -24,9 +24,9 @@
 
 install:
 	rm -f SimulatedQueue.jar *~
-	javac ./src/*.java -d ./ -classpath ./
-	jar cvf SimulatedQueue.jar ./*.class
-	rm -rf *.class
+	javac ./src/sim_queue/*.java -d ./ -classpath ./sim_queue
+	jar cvf SimulatedQueue.jar ./sim_queue/*.class
+	rm -rf sim_queue
 	@echo "To execute SimulatedQueue, run ./SimulatedQueue.sh"
 
 doc:

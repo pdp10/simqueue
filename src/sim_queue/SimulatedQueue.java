@@ -1,3 +1,4 @@
+package sim_queue;
 /*
  * MIT License
  * 
@@ -22,7 +23,6 @@
  * SOFTWARE.
 */
 
-import java.io.*;
 import java.util.*;
 
 
@@ -334,8 +334,7 @@ public class SimulatedQueue implements Runnable {
         boolean stop = false;
         while( !stop ) {
             if( t1 < t2 ) {                // a new client arrives
-                // This provides to put this application in the sleeping state. 
-                // In this way, I forbid to block other applications that are running in the O.S.
+                // put this application in the sleeping state. 
                 try { Thread.sleep(5); }
                 catch(InterruptedException e) { System.out.println("Thread interrupted early."); }
                 t = t1;
@@ -457,9 +456,9 @@ public class SimulatedQueue implements Runnable {
     /** Print the running time of the simulation. */
     public void printTime() {
         if(start != null && end != null) {
-            int m  = end.get( end.MINUTE ) - start.get( start.MINUTE );
-            int s  = end.get( end.SECOND ) - start.get( start.SECOND );
-            int ms = end.get( end.MILLISECOND ) - start.get( start.MILLISECOND );
+            int m  = end.get( Calendar.MINUTE ) - start.get( Calendar.MINUTE );
+            int s  = end.get( Calendar.SECOND ) - start.get( Calendar.SECOND );
+            int ms = end.get( Calendar.MILLISECOND ) - start.get( Calendar.MILLISECOND );
             if( m < 0 ) m = 60 + m;
             if( s < 0 ) {
                 m--;

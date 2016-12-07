@@ -1,3 +1,4 @@
+package sim_queue;
 /*
  * MIT License
  * 
@@ -24,9 +25,10 @@
 
 
 
-/** This generates an exception when it is impossible initialize a exponential casual variable. */
+/** This generates an exception when it is impossible initialise a exponential casual variable. */
 public class ExponentialException extends Exception {
-    /* Default constructor. */
+	private static final long serialVersionUID = 2296280104480719115L;
+	/* Default constructor. */
     public ExponentialException() { 
         this("ExponentialException"); 
     }

@@ -1,3 +1,4 @@
+package sim_queue;
 /*
  * MIT License
  * 
@@ -23,18 +24,20 @@
 */
 
 
-/** This generates an exception when it is impossible initialize a triangular casual variable. */
-class TriangularException extends Exception {
-    /* Default constructor. */
-    public TriangularException() { 
-        this("TriangularException"); 
+
+/** This generates an exception when it is impossible initialise the queue. */
+public class SimulatedQueueException extends Exception {
+	private static final long serialVersionUID = -6081522286608898259L;
+	/* Default constructor. */
+    public SimulatedQueueException() { 
+        this("SimulatedQueueException"); 
     }
     /* Constructor. */
-    public TriangularException(String s) { 
+    public SimulatedQueueException(String s) { 
         super(s); 
     }
     /* Return the message of this exception. */
     public String getMessage() {
-        return "Paramethers must be a <= m <= b and a < b .";
+        return "Paramether n (the queue size) must be > 0. ";
     } 
 }

@@ -21,7 +21,7 @@ Object:
 
 	
 
-About stochastic varibles:
+About stochastic variables:
       1) Exponential casual variable;
       2) Triangular casual variable;
       To simulate a continuous stochastic variable, we use the reversed transformation method. 
@@ -50,7 +50,7 @@ About stochastic varibles:
 		The reverse function of F(z) is:
 		    z = F[-1](y) = -( ln(1-y) / b )
 		
-		As a random variable `rand` is computated from a uniform stochastic variable 
+		As a random variable `rand` is computed from a uniform stochastic variable 
 		in every programming language, we can write
 		    z = -( ln(1 - rand()) / b )
 
@@ -65,7 +65,7 @@ Example:
 		*** SIMULATED QUEUE ***
 
 How is the capacity of the queue that you want to simulate? 30
-Which is the averange number of users in an hour? 18
+Which is the average number of users in an hour? 18
 How long is the most common (the mode) service time (minutes)? 4
 How long is the maximum service time (minutes)? 15
 
@@ -106,20 +106,20 @@ User	Arrived (minutes)	Served (minutes)	Go Away (minutes)
 
 
 [REAL VALUES]
- 1- Averange arrive: 3.3333333333333335 minutes
+ 1- Average arrive: 3.3333333333333335 minutes
  2- Variance arrive: 11.11111111111111 minutes
  3- Standard deviation arrive: 3.3333333333333335
  4- Maximum service time: 15.0 minutes
- 5- Averange service time: 6.333333333333333
+ 5- Average service time: 6.333333333333333
  6- Variance service time: 10.055555555555555
  7- Standard deviation service time: 3.1710495984067415
 
 [SIMULATED VALUES]
- 1- Averange arrive: 3.533002372043622 minutes (Error = 0.1996690387102884)
+ 1- Average arrive: 3.533002372043622 minutes (Error = 0.1996690387102884)
  2- Variance arrive: 12.482105760865858 (Error = 1.3709946497547474)
  3- Standard deviation arrive: 3.533002372043622 (Error = 0.1996690387102884)
  4- Maximum service time: 12.592412067804105 minutes (Error = 2.407587932195895)
- 5- Averange service time: 6.06214405985989 minutes (Error = 0.2711892734734427)
+ 5- Average service time: 6.06214405985989 minutes (Error = 0.2711892734734427)
  6- Variance service time: 6.021268532668716 minutes (Error = 4.034287022886839)
  7- Standard deviation service time: 2.4538273233193726 minutes (Error = 0.7172222750873689)
 
@@ -154,7 +154,7 @@ Notes:
 			st[24] = z[24] - y[24].
 	You can also observe that 
 		the mode for the vector st is for the mode you have put at start for n --> infinite,
-		the expected value for the vector st is for the averange service time for n --> infinite,
+		the expected value for the vector st is for the average service time for n --> infinite,
 		no st[k] for k = 1 to n is over than the maximum service time.
 
 
@@ -163,5 +163,5 @@ References:
 	For references, chapter 6 of `Ricerca Operativa` by Paolo Malesani offers an overview of simulated queues. 
 	'A first course in probability' by Sheldon M. Ross.
 
-								Piero Dalle Pezze
-								10th October 2005
+Piero Dalle Pezze
+10th October 2005
