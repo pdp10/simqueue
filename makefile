@@ -36,7 +36,7 @@ compile:
 	$(JAVAC) $(sources) -d ./ -classpath ./sim_queue
 
 jar:
-	$(JAR) -cmf manifest.mf SimulatedQueue.jar $(classes) $(sources)
+	$(JAR) -cmf manifest.mf SimulatedQueue.jar $(classes) $(sources) LICENSE readme.txt
 	rm -rf sim_queue
 
 doc:
