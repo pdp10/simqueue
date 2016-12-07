@@ -22,17 +22,29 @@
 # SOFTWARE.
 
 
-install:
-	rm -f SimulatedQueue.jar *~
-	javac ./src/sim_queue/*.java -d ./ -classpath ./sim_queue
-	jar cvf SimulatedQueue.jar ./sim_queue/*.class
+JAVAC = javac
+JAR = jar
+JAVADOC = javadoc
+
+sources = ./src/sim_queue/*.java
+classes = ./sim_queue/*.class
+
+
+all: clean compile jar
+
+compile:
+	$(JAVAC) $(sources) -d ./ -classpath ./sim_queue
+
+jar:
+	$(JAR) -cmf manifest.mf SimulatedQueue.jar $(classes) $(sources)
 	rm -rf sim_queue
-	@echo "To execute SimulatedQueue, run ./SimulatedQueue.sh"
 
 doc:
-	javadoc -sourcepath ./src/sim_queue -d ./doc -classpath ./sim_queue -windowtitle "Source code documentation for SimulatedQueue" ./src/sim_queue/*.java
+	$(JAVADOC) -sourcepath ./src/sim_queue -d ./doc -classpath ./sim_queue -windowtitle "Source code documentation for SimulatedQueue" ./src/sim_queue/*.java
 
 clean:
 	rm -f SimulatedQueue.jar
-	rm -rf doc/ bin/
+	rm -rf doc/ 
+	rm -rf bin/
 	rm -rf *~
+	rm -rf *.class

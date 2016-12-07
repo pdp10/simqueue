@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Class-Path: sim_queue
+Main-Class: sim_queue/Main
