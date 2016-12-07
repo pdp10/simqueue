@@ -23,4 +23,4 @@
 # SOFTWARE.
 
 
-java -cp "SimulatedQueue.jar:." SimulatedQueue
+java -cp "SimulatedQueue.jar:." Main
