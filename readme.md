@@ -75,7 +75,8 @@ As above, we can obtain a stochastic history for the triangular stochastic varia
 
 
 ## Example:
-### compile if necessary (Maven is required) 
+### Compilation
+Below are the commands for compiling this project. Maven is required.
 ```
 $ mvn package
 $ cd target
