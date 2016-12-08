@@ -38,7 +38,7 @@ public class Main {
       * Then, the stochastic history is generated and shown. */
     public static void main( String[] args ) {
     	
-    	String fileout = "SimQueue";
+    	String fileout = "SimQueue.csv";
     	if(args.length > 0) {
     		fileout = args[0];
     	}

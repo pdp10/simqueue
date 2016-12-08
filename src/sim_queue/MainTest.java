@@ -38,7 +38,7 @@ public class MainTest {
      * Then, the stochastic history is generated and shown. */
     public static void main( String[] args ) {
     	
-    	String fileout = "SimQueue";
+    	String fileout = "SimQueue.csv";
     	if(args.length > 0) {
     		fileout = args[0];
     	}    	
@@ -46,25 +46,25 @@ public class MainTest {
         SimQueue Q = null;
         
         // Queue Capacity
-        Integer num = new Integer(100);
+        int num = 100;
         
         // average number of customers per minute?
-        Double expVar_b = new Double(0.3);
+        double expVar_b = 0.3d;
         
         // length of the most common (the mode) service time [min]
-        Double triVar_m = new Double(2);
+        double triVar_m = 2d;
         
         // length of the shortest service time [min] (no service)
-        Double triVar_a = new Double(0.0);
+        double triVar_a = 0.0d;
         
         // length of the maximum service time [min]
-        Double triVar_b = new Double(20);
+        double triVar_b = 20d;
 
         try {
-            Q = new SimQueue( num.intValue() );
-            Q.setExponential( expVar_b.doubleValue() );
+            Q = new SimQueue(num);
+            Q.setExponential(expVar_b);
 
-            Q.setTriangular( triVar_a.doubleValue(), triVar_m.doubleValue(),  triVar_b.doubleValue() );
+            Q.setTriangular(triVar_a, triVar_m, triVar_b);
             Q.run();
 
             Q.printHistory();
@@ -97,8 +97,8 @@ public class MainTest {
             }
             
         } 
-        catch( SimQueueException e ) { e.getMessage(); e.printStackTrace();}
-        catch( TriangularException e ) { e.getMessage(); e.printStackTrace();}
-        catch( ExponentialException e ) { e.getMessage(); e.printStackTrace(); }
+        catch(SimQueueException e) { e.getMessage(); e.printStackTrace(); }
+        catch(TriangularException e) { e.getMessage(); e.printStackTrace(); }
+        catch(ExponentialException e) { e.getMessage(); e.printStackTrace(); }
     }
 }
