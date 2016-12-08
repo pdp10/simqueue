@@ -1,4 +1,5 @@
 package org.simqueue;
+
 /*
  * MIT License
  * 
@@ -21,8 +22,7 @@ package org.simqueue;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
-*/
-
+ */
 
 import java.io.*;
 
@@ -31,79 +31,90 @@ import org.simqueue.exception.SimQueueException;
 import org.simqueue.exception.TriangularException;
 import org.simqueue.sim.SimQueue;
 
-
-/** 
+/**
  * Main class for SimQueue.
  */
 public class Main {
 
-    /** The programs requests the queue size and the parameters 
-      * for the two used stochastic variables: 
-      * 1) triangular variable;
-      * 2) exponential variable. 
-      * Then, the stochastic history is generated and shown. */
-    public static void main( String[] args ) {
-    	
-    	String fileout = "simqueue.csv";
-    	if(args.length > 0) {
-    		fileout = args[0];
-    	}
-    		
-    	
-        SimQueue Q = null;
-        Integer num = null;
-        Double expVar_b = null, triVar_a = new Double(0.0), triVar_m = null, triVar_b = null;
-        BufferedReader in = new BufferedReader( new InputStreamReader( System.in ) );
+	/**
+	 * The programs requests the queue size and the parameters for the two used
+	 * stochastic variables: 1) triangular variable; 2) exponential variable.
+	 * Then, the stochastic history is generated and shown.
+	 */
+	public static void main(String[] args) {
 
-        System.out.print("\nsimqueue: a queue simulator based on stochastic time events.\n\n");
+		String fileout = "simqueue.csv";
+		if (args.length > 0) {
+			fileout = args[0];
+		}
 
-        try {
-            System.out.print( "Number of clients to simulate: " );
-            num = new Integer( in.readLine() );
+		SimQueue Q = null;
+		Integer num = null;
+		Double expVar_b = null, triVar_a = new Double(0.0), triVar_m = null, triVar_b = null;
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-            System.out.print( "Mean number of clients per hour: " );
-            expVar_b = new Double( in.readLine() );
-            expVar_b = new Double( expVar_b.doubleValue() / 60 );
+		System.out
+				.print("\nsimqueue: a queue simulator based on stochastic time events.\n\n");
 
-            System.out.print( "Most common service time [min] (the mode): " );
-            triVar_m = new Double( in.readLine() );	    
+		try {
+			System.out.print("Number of clients to simulate: ");
+			num = new Integer(in.readLine());
 
-            System.out.print( "Longest service time [min]: " );
-            triVar_b = new Double( in.readLine() );
+			System.out.print("Mean number of clients per hour: ");
+			expVar_b = new Double(in.readLine());
+			expVar_b = new Double(expVar_b.doubleValue() / 60);
 
-            Q = new SimQueue( num.intValue(), expVar_b.doubleValue(), triVar_a.doubleValue(), triVar_m.doubleValue(),  triVar_b.doubleValue() );
-            Q.run();
+			System.out.print("Most common service time [min] (the mode): ");
+			triVar_m = new Double(in.readLine());
 
-            System.out.println( "\nStochastic generation of Arrival/Service/Leaving times for this simulated queue (FIFO):\n" );
-            Q.printHistory();
-            System.out.println();
-            Q.printTheoreticalStatistics();
-            System.out.println();
-            Q.printSimulatedStatistics();
-            System.out.println();
-            Q.printErrorStatistics();
-            System.out.println();
-            Q.printTime();
-            
-            
-            // get the queue of events (arrival, service, and leave times)
-            double[][] queue = Q.getQueue();
+			System.out.print("Longest service time [min]: ");
+			triVar_b = new Double(in.readLine());
 
-            // write the queue to file
-            try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileout, false)))) {
-                out.println("Time\tArrivalTime\tServiceTime\tLeavingTime");
-                for( int j = 0; j < queue[0].length; j++ ) {
-                    out.println(j + "\t" + queue[0][j] + "\t" + queue[1][j] + "\t" + queue[2][j]);
-                }
-            } catch (IOException e) {
-                System.err.println(e);
-            }
-            
-        } 
-        catch( IOException e ) { System.out.println("Error: input not read correctly"); }
-        catch( NumberFormatException e ) { System.out.println("Error: input must be an integer"); }
-        catch( SimQueueException e ) { e.getMessage(); e.printStackTrace();}
-        catch( TriangularException e ) { e.getMessage(); e.printStackTrace();}
-        catch( ExponentialException e ) { e.getMessage(); e.printStackTrace(); }
-    }
+			Q = new SimQueue(num.intValue(), expVar_b.doubleValue(),
+					triVar_a.doubleValue(), triVar_m.doubleValue(),
+					triVar_b.doubleValue());
+			Q.run();
+
+			System.out
+					.println("\nStochastic generation of Arrival/Service/Leaving times for this simulated queue (FIFO):\n");
+			Q.printHistory();
+			System.out.println();
+			Q.printTheoreticalStatistics();
+			System.out.println();
+			Q.printSimulatedStatistics();
+			System.out.println();
+			Q.printErrorStatistics();
+			System.out.println();
+			Q.printTime();
+
+			// get the queue of events (arrival, service, and leave times)
+			double[][] queue = Q.getQueue();
+
+			// write the queue to file
+			try (PrintWriter out = new PrintWriter(new BufferedWriter(
+					new FileWriter(fileout, false)))) {
+				out.println("Time\tArrivalTime\tServiceTime\tLeavingTime");
+				for (int j = 0; j < queue[0].length; j++) {
+					out.println(j + "\t" + queue[0][j] + "\t" + queue[1][j]
+							+ "\t" + queue[2][j]);
+				}
+			} catch (IOException e) {
+				System.err.println(e);
+			}
+
+		} catch (IOException e) {
+			System.out.println("Error: input not read correctly");
+		} catch (NumberFormatException e) {
+			System.out.println("Error: input must be an integer");
+		} catch (SimQueueException e) {
+			e.getMessage();
+			e.printStackTrace();
+		} catch (TriangularException e) {
+			e.getMessage();
+			e.printStackTrace();
+		} catch (ExponentialException e) {
+			e.getMessage();
+			e.printStackTrace();
+		}
+	}
 }
