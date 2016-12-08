@@ -1,71 +1,89 @@
 
-SIMQUEUE
-
-author: Piero Dalle Pezze
-license: MIT
-year: 2005
+# simqueue
 
 
-Object:
-	This is a queue simulator based on stochastic time events.
-	It aims to simulate a real queue, like a queue at the post office,
-	where clients arrive in a random order. When a client arrives, s/he is
-	the last one who will be served. (FIFO = First In First Out). In particular
-	there are two stochastic factors:
-	      1) the time of arrive,
-	      2) the time of service.
-	Meanwhile, clients arrive and others leave.
-	This simulation shows when a person arrives, is ready to be served, and finally leaves.    
+Author: Piero Dalle Pezze
+
+Year: 2005
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## Summary:
+This is a queue simulator based on stochastic time events.
+It aims to simulate a real queue, like a queue at the post office,
+where clients arrive in a random order. When a client arrives, s/he is
+the last one who will be served. (FIFO = First In First Out). In particular
+there are two stochastic factors:
+
+- the time of arrive,
+- the time of service.
+
+Meanwhile, clients arrive and others leave.
+This simulation shows when a person arrives, is ready to be served, and finally leaves.    
 
 
-	
+## About stochastic variables:
+To simulate a continuous stochastic variable, we use the reversed transformation method. 
+In more detail, let X be a continuous stochastic variable, so X ~ f(x), where f(x) is its 
+density function. Let F(x) be its distribution function. Let f(x) be a increase monotonous 
+function, so F(x) is invertible. We can demonstrate that
+```
+U = F(X)
+```
+where U is the uniform stochastic variable (for a proof, see "A first course in probability" by Ross). 
+U is exactly F(X) iff X is x, so where
+```
+U = F(X = x).
+```
+Therefore, we obtain a stochastic history for the uniform stochastic variable.
+As we are interested in the stochastic history for the stochastic variable X,
+we must calculate the reverse function:
+```
+X = F[-1](U)    (where F[-1] is the reverse function of F).
+```
 
-About stochastic variables:
-      1) Exponential variable;
-      2) Triangular variable;
-      To simulate a continuous stochastic variable, we use the reversed transformation method. 
-      In more detail, let X be a continuous stochastic variable, so X ~ f(x), where f(x) is its 
-      density function. Let F(x) be its distribution function. Let f(x) be a increase monotonous 
-      function, so F(x) is invertible.
-      We can demonstrate that
-	    U = F(X)
-      where U is the uniform stochastic variable (for a proof, see "A first course in probability" by Ross). 
-      U is exactly F(X) iff X is x, so where
-	    U = F(X = x).
-      Therefore, we obtain a stochastic history for the uniform stochastic variable.
-      As we are interested in the stochastic history for the stochastic variable X,
-      we must calculate the reverse function:
-	    X = F[-1](U)    (where F[-1] is the reverse function of F).
-      
-      For instance:
-	   1)   Let X ~ Eb be an exponential stochastic variable of parameter b.
-		Its density function is:
-		    f(x) =  b*e exp(-b*x)   if x >= 0
-			    0		    if x < 0
-		Its distribution function is:
-		    y = F(z) = INTEGRAL( f(z) dz )  from 0 to z
-			     = 1 - e exp(-b*z)
-		    (y is an uniform variable U !!)
-		The reverse function of F(z) is:
-		    z = F[-1](y) = -( ln(1-y) / b )
-		
-		As a random variable `rand` is computed from a uniform stochastic variable 
-		in every programming language, we can write
-		    z = -( ln(1 - rand()) / b )
+Simqueue samples clients arrival times from an extponential distribution, whereas 
+service times are sampled from a triangular distribution. 
 
-	   2)	As (1) we can obtain a stochastic history for the triangular stochastic variable.
-		
+### Exponential variable
+Let X ~ Eb be an exponential stochastic variable of parameter b.
+Its density function is:
+```
+f(x) =  b*e exp(-b*x)   if x >= 0
+    	0		if x < 0
+```	    
+Its distribution function is:
+```
+y = F(z) = INTEGRAL( f(z) dz )  from 0 to z
+	 = 1 - e exp(-b*z)
+```
+(y is an uniform variable U !!)
+The reverse function of F(z) is:
+```
+z = F[-1](y) = -( ln(1-y) / b )
+```
+As a random variable `rand` is computed from a uniform stochastic variable 
+in every programming language, we can write
+```
+z = -( ln(1 - rand()) / b )
+```
+
+### Triangular variable
+As above, we can obtain a stochastic history for the triangular stochastic variable.	
 
 
 
 
-Example:
-
-# compile if necessary (Maven is required)
+## Example:
+### compile if necessary (Maven is required) 
+```
 $ mvn package
 $ cd target
 $ java -jar simqueue-devel-jar-with-dependencies.jar 
+```
 
+### A simulation
+```
 simqueue: a queue simulator based on stochastic time events.
 
 Number of clients to simulate: 30
@@ -137,18 +155,17 @@ Client  Arrival Time (min)      Serving Time (min)      Leaving Time (min)
  7- Std dev service time error:         0.3334330399771215 min 
 
 Running time of the simulation: 0 min 0 s 158 ms
-
-
-
-
+```
 
 Notes:
-1) Time is expressed in minutes in this model.
-2) When a client leaves the service (Leaving Time) another is served.
-3) Client arrival time is sampled from an exponential distribution.
-4) Client actual service time is sampled from a triangular distribution.
+
+1. Time is expressed in minutes in this model.
+2. When a client leaves the service (Leaving Time) another is served.
+3. Client arrival time is sampled from an exponential distribution.
+4. Client actual service time is sampled from a triangular distribution.
 
 
-References:
+## References:
+
 - Malesani Paolo, `Ricerca Operativa` 
 - Sheldon M. Ross, `A first course in probability`
