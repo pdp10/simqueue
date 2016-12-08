@@ -27,18 +27,23 @@ import java.io.*;
 
 
 /** 
- * Main class
+ * Main class used for testing SimQueue.
  */
 public class MainTest {
 
+    /** The programs automatically sets a queue size and the parameters 
+     * for the two used stochastic variables: 
+     * 1) triangular variable;
+     * 2) exponential variable. 
+     * Then, the stochastic history is generated and shown. */
     public static void main( String[] args ) {
     	
-    	String fileout = "SimulatedQueue";
+    	String fileout = "SimQueue";
     	if(args.length > 0) {
     		fileout = args[0];
     	}    	
     	
-        SimulatedQueue Q = null;
+        SimQueue Q = null;
         
         // Queue Capacity
         Integer num = new Integer(100);
@@ -56,7 +61,7 @@ public class MainTest {
         Double triVar_b = new Double(20);
 
         try {
-            Q = new SimulatedQueue( num.intValue() );
+            Q = new SimQueue( num.intValue() );
             Q.setExponential( expVar_b.doubleValue() );
 
             Q.setTriangular( triVar_a.doubleValue(), triVar_m.doubleValue(),  triVar_b.doubleValue() );
@@ -64,11 +69,11 @@ public class MainTest {
 
             Q.printHistory();
             System.out.println();
-            Q.realStatistics();
+            Q.printRealStatistics();
             System.out.println();
-            Q.simulatedStatistics();
+            Q.printSimulatedStatistics();
             System.out.println();
-            Q.errorStatistics();
+            Q.printErrorStatistics();
             System.out.println();
             Q.printTime();
             
@@ -92,7 +97,7 @@ public class MainTest {
             }
             
         } 
-        catch( SimulatedQueueException e ) { e.getMessage(); e.printStackTrace();}
+        catch( SimQueueException e ) { e.getMessage(); e.printStackTrace();}
         catch( TriangularException e ) { e.getMessage(); e.printStackTrace();}
         catch( ExponentialException e ) { e.getMessage(); e.printStackTrace(); }
     }

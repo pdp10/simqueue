@@ -36,14 +36,14 @@ compile:
 	$(JAVAC) $(sources) -d ./ -classpath ./sim_queue
 
 jar:
-	$(JAR) -cmf manifest.mf SimulatedQueue.jar $(classes) $(sources) LICENSE readme.txt
+	$(JAR) -cmf manifest.mf SimQueue.jar $(classes) $(sources) LICENSE readme.txt
 	rm -rf sim_queue
 
 doc:
-	$(JAVADOC) -sourcepath ./src/sim_queue -d ./doc -classpath ./sim_queue -windowtitle "Source code documentation for SimulatedQueue" ./src/sim_queue/*.java
+	$(JAVADOC) -sourcepath ./src/sim_queue -d ./doc -classpath ./sim_queue -windowtitle "Source code documentation for SimQueue" ./src/sim_queue/*.java
 
 clean:
-	rm -f SimulatedQueue.jar
+	rm -f SimQueue.jar
 	rm -rf doc/ 
 	rm -rf bin/
 	rm -rf *~

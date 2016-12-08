@@ -27,23 +27,24 @@ import java.io.*;
 
 
 /** 
- * Main class
+ * Main class for SimQueue.
  */
 public class Main {
 
-    /** The main method. In the main body, the programs asks to user the capacity 
-     *  of the queue and the parameters for the two stochastic variables used: 
-     *  triangular and exponential casual variables. Then it prints the stochastic 
-     *  history generated. */
+    /** The programs requests the queue size and the parameters 
+      * for the two used stochastic variables: 
+      * 1) triangular variable;
+      * 2) exponential variable. 
+      * Then, the stochastic history is generated and shown. */
     public static void main( String[] args ) {
     	
-    	String fileout = "SimulatedQueue";
+    	String fileout = "SimQueue";
     	if(args.length > 0) {
     		fileout = args[0];
     	}
     		
     	
-        SimulatedQueue Q = null;
+        SimQueue Q = null;
         Integer num = null;
         Double expVar_b = null, triVar_a = new Double(0.0), triVar_m = null, triVar_b = null;
         BufferedReader in = new BufferedReader( new InputStreamReader( System.in ) );
@@ -53,9 +54,9 @@ public class Main {
         try {
             System.out.print( "Enter the queue size: " );
             num = new Integer( in.readLine() );
-            Q = new SimulatedQueue( num.intValue() );
+            Q = new SimQueue( num.intValue() );
 
-            System.out.print( "Average number of clients per hour: " );
+            System.out.print( "Mean number of clients per hour: " );
             expVar_b = new Double( in.readLine() );
             expVar_b = new Double( expVar_b.doubleValue() / 60 );
             Q.setExponential( expVar_b.doubleValue() );
@@ -69,14 +70,14 @@ public class Main {
             Q.setTriangular( triVar_a.doubleValue(), triVar_m.doubleValue(),  triVar_b.doubleValue() );
             Q.run();
 
-            System.out.println( "\nCasual history of Arrival/Service/Leaving times for this simulated queue (FIFO):\n" );
+            System.out.println( "\nStochastic generation of Arrival/Service/Leaving times for this simulated queue (FIFO):\n" );
             Q.printHistory();
             System.out.println();
-            Q.realStatistics();
+            Q.printRealStatistics();
             System.out.println();
-            Q.simulatedStatistics();
+            Q.printSimulatedStatistics();
             System.out.println();
-            Q.errorStatistics();
+            Q.printErrorStatistics();
             System.out.println();
             Q.printTime();
             
@@ -97,7 +98,7 @@ public class Main {
         } 
         catch( IOException e ) { System.out.println("Error: input not read correctly"); }
         catch( NumberFormatException e ) { System.out.println("Error: input must be an integer"); }
-        catch( SimulatedQueueException e ) { e.getMessage(); e.printStackTrace();}
+        catch( SimQueueException e ) { e.getMessage(); e.printStackTrace();}
         catch( TriangularException e ) { e.getMessage(); e.printStackTrace();}
         catch( ExponentialException e ) { e.getMessage(); e.printStackTrace(); }
     }

@@ -25,7 +25,7 @@ package sim_queue;
 
 
 
-/** This generates an exception when it is impossible initialise a exponential casual variable. */
+/** Exception when it is impossible to initialise a exponential random variable. */
 public class ExponentialException extends Exception {
 	private static final long serialVersionUID = 2296280104480719115L;
 	/* Default constructor. */
@@ -38,6 +38,6 @@ public class ExponentialException extends Exception {
     }
     /* Return the message of this exception. */
     public String getMessage() {
-        return "Paramether b mnust be > 0 .";
+        return "Parameter b mnust be > 0 .";
     } 
 }

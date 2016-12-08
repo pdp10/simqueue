@@ -25,19 +25,19 @@ package sim_queue;
 
 
 
-/** This generates an exception when it is impossible initialise the queue. */
-public class SimulatedQueueException extends Exception {
+/** Exception when it is impossible to initialise the queue. */
+public class SimQueueException extends Exception {
 	private static final long serialVersionUID = -6081522286608898259L;
 	/* Default constructor. */
-    public SimulatedQueueException() { 
-        this("SimulatedQueueException"); 
+    public SimQueueException() { 
+        this("SimQueueException"); 
     }
     /* Constructor. */
-    public SimulatedQueueException(String s) { 
+    public SimQueueException(String s) { 
         super(s); 
     }
     /* Return the message of this exception. */
     public String getMessage() {
-        return "Paramether n (the queue size) must be > 0. ";
+        return "Parameter n (the queue size) must be > 0. ";
     } 
 }

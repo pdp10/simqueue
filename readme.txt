@@ -1,5 +1,5 @@
 
-SIMULATED QUEUE
+SIM QUEUE
 
 author: Piero Dalle Pezze
 license: MIT
@@ -21,8 +21,8 @@ Object:
 	
 
 About stochastic variables:
-      1) Exponential casual variable;
-      2) Triangular casual variable;
+      1) Exponential stochastic variable;
+      2) Triangular stochastic variable;
       To simulate a continuous stochastic variable, we use the reversed transformation method. 
       In more detail, let X be a continuous stochastic variable, so X ~ f(x), where f(x) is its 
       density function. Let F(x) be its distribution function. Let f(x) be a increase monotonous 
@@ -32,8 +32,8 @@ About stochastic variables:
       where U is the uniform stochastic variable (for a proof, see "A first course in probability" by Ross). 
       U is exactly F(X) iff X is x, so where
 	    U = F(X = x).
-      Therefore, we obtain a casual history for the uniform stochastic variable.
-      As we are interested in the casual history for the stochastic variable X,
+      Therefore, we obtain a stochastic history for the uniform stochastic variable.
+      As we are interested in the stochastic history for the stochastic variable X,
       we must calculate the reverse function:
 	    X = F[-1](U)    (where F[-1] is the reverse function of F).
       
@@ -53,7 +53,7 @@ About stochastic variables:
 		in every programming language, we can write
 		    z = -( ln(1 - rand()) / b )
 
-	   2)	As (1) we can obtain a casual history for the triangular stochastic variable.
+	   2)	As (1) we can obtain a stochastic history for the triangular stochastic variable.
 		
 
 
@@ -61,73 +61,86 @@ About stochastic variables:
 
 Example:
 
-		*** SIMULATED QUEUE ***
+$ ./SimQueue.sh 
 
-How is the capacity of the queue that you want to simulate? 30
-Which is the average number of users in an hour? 18
-How long is the most common (the mode) service time (minutes)? 4
-How long is the maximum service time (minutes)? 15
+                *** SIMULATED QUEUE ***
 
-Casual history of the cadence times of the simulated queue (FIFO):
+Enter the queue size: 30
+Mean number of clients per hour: 18
+Most common service time [min] (the mode): 4
+Longest service time [min]: 15
 
-User	Arrived (minutes)	Served (minutes)	Go Away (minutes)
-----	-----------------	----------------	-----------------
-[1]	0.0			0.0			4.188943886954821
-[2]	1.4139821986334242	4.188943886954821	7.440256323965718
-[3]	5.079378625595708	7.440256323965718	12.039611302013554
-[4]	7.458775707363041	12.039611302013554	16.016638020246067
-[5]	7.8037596061715915	16.016638020246067	16.77788998531669
-[6]	8.954605482483865	16.77788998531669	20.783905157161467
-[7]	12.989380434793063	20.783905157161467	32.410989869914204
-[8]	19.77521330578633	32.410989869914204	41.45211966641769
-[9]	34.630254230911945	41.45211966641769	43.43924403521794
-[10]	42.2697666179794	43.43924403521794	50.25660290649584
-[11]	46.41066360455103	50.25660290649584	52.57980365172928
-[12]	46.95991701849671	52.57980365172928	58.44051214884202
-[13]	54.35930058974406	58.44051214884202	62.39369782375851
-[14]	59.79814869974687	62.39369782375851	67.73245655812234
-[15]	65.64797445225574	67.73245655812234	71.07671265120618
-[16]	65.68156598489911	71.07671265120618	79.68056970067782
-[17]	69.34973807397604	79.68056970067782	81.59887234594758
-[18]	73.59117728339888	81.59887234594758	82.87662899370153
-[19]	74.43035820758651	82.87662899370153	92.52718840217017
-[20]	77.70783900510315	92.52718840217017	101.07158024730566
-[21]	81.02857164165513	101.07158024730566	107.37268275874811
-[22]	81.57887464310903	107.37268275874811	116.81892699460272
-[23]	83.65034011003719	116.81892699460272	125.65810359610084
-[24]	86.5876020858378	125.65810359610084	134.30911654445728
-[25]	88.09144598387114	134.30911654445728	142.0605339450247
-[26]	88.83616443831251	142.0605339450247	148.43611569638645
-[27]	94.12481668363758	148.43611569638645	161.02852776419056
-[28]	95.58106118149131	161.02852776419056	164.58082515889942
-[29]	101.72466204438182	164.58082515889942	174.3981188474463
-[30]	105.99007116130866	174.3981188474463	181.8643217957967
+Stochastic generation of Arrival/Service/Leaving times for this simulated queue (FIFO):
 
+User    Arrival Time (min)      Serving Time (min)      Leaving Time (min)
+----    -----------------       ----------------        -----------------
+
+[1]     0.0     0.0     9.301833991309138
+[2]     3.2006732917769094      9.301833991309138       20.789495508765896
+[3]     4.396008014055122       20.789495508765896      28.71412359297996
+[4]     8.093336465580835       28.71412359297996       39.68610156873699
+[5]     10.799065473229996      39.68610156873699       40.2137512617693
+[6]     14.916437982156179      40.2137512617693        42.02088952920746
+[7]     23.96628486861038       42.02088952920746       45.621417701475465
+[8]     39.69469213197855       45.621417701475465      49.11660343758008
+[9]     39.98275558788958       49.11660343758008       54.53843925197566
+[10]    45.40026916938175       54.53843925197566       62.964044639814375
+[11]    49.6127932666428        62.964044639814375      64.63680367740662
+[12]    50.48917011194782       64.63680367740662       69.99545336937453
+[13]    50.7676265263396        69.99545336937453       73.25899180621364
+[14]    54.86385684102196       73.25899180621364       83.72691130487954
+[15]    55.3700978565707        83.72691130487954       87.73019488103837
+[16]    58.67834360438434       87.73019488103837       95.04913126536003
+[17]    58.8708269314442        95.04913126536003       99.17469300281823
+[18]    66.53488751712008       99.17469300281823       109.43540790639068
+[19]    68.15319428330746       109.43540790639068      115.93301792952013
+[20]    68.35539282551437       115.93301792952013      118.06748082306903
+[21]    71.89163045347134       118.06748082306903      127.47054499125433
+[22]    72.19282919529373       127.47054499125433      130.12517226201152
+[23]    76.6001846811393        130.12517226201152      136.28733618616653
+[24]    85.59352546833523       136.28733618616653      150.81828491361756
+[25]    87.68406702919287       150.81828491361756      161.19119475332457
+[26]    93.49465050008948       161.19119475332457      168.0375220388211
+[27]    100.62256385478823      168.0375220388211       169.98486048662684
+[28]    103.68423485473251      169.98486048662684      177.69041460261585
+[29]    104.73193174175726      177.69041460261585      178.86759910394807
+[30]    106.35424335608094      178.86759910394807      183.3205690513528
 
 [REAL VALUES]
- 1- Average arrive: 3.3333333333333335 minutes
- 2- Variance arrive: 11.11111111111111 minutes
- 3- Standard deviation arrive: 3.3333333333333335
- 4- Maximum service time: 15.0 minutes
- 5- Average service time: 6.333333333333333
- 6- Variance service time: 10.055555555555555
- 7- Standard deviation service time: 3.1710495984067415
+ 1- Mean arrive time:           3.3333333333333335 min
+ 2- Variance arrive time:       11.11111111111111 min^2
+ 3- Std dev arrive time:        3.3333333333333335 min
+ 4- Maximum service time:       15.0 min
+ 5- Mean service time:          6.333333333333333 min
+ 6- Variance service time:      10.055555555555555 min^2
+ 7- Std dev service time:       3.1710495984067415 min
 
 [SIMULATED VALUES]
- 1- Average arrive: 3.533002372043622 minutes (Error = 0.1996690387102884)
- 2- Variance arrive: 12.482105760865858 (Error = 1.3709946497547474)
- 3- Standard deviation arrive: 3.533002372043622 (Error = 0.1996690387102884)
- 4- Maximum service time: 12.592412067804105 minutes (Error = 2.407587932195895)
- 5- Average service time: 6.06214405985989 minutes (Error = 0.2711892734734427)
- 6- Variance service time: 6.021268532668716 minutes (Error = 4.034287022886839)
- 7- Standard deviation service time: 2.4538273233193726 minutes (Error = 0.7172222750873689)
+ 1- Mean arrive time:           3.545141445202698 min 
+ 2- Variance arrive time:       12.568027866493876 min^2 
+ 3- Std dev arrive time:        3.5451414452026984 min 
+ 4- Maximum service time:       14.530948727451033 min 
+ 5- Mean service time:          6.110685635045093 min 
+ 6- Variance service time:      9.17674823150569 min^2 
+ 7- Std dev service time:       3.029314812215081 min 
+
+[RELATIVE ERRORS]
+ 1- Mean arrive time error:             0.21180811186936443 min (5.9746027 %)
+ 2- Variance arrive time error:         1.4569167553827658 min^2 (11.592246 %)
+ 3- Std dev arrive time error:          0.21180811186936488 min (5.9746027 %)
+ 4- Maximum service time error:         0.46905127254896684 min (3.2279468 %)
+ 5- Mean service time error:            0.22264769828823994 min (3.6435797 %)
+ 6- Variance service time error:        0.8788073240498662 min^2 (9.576457 %)
+ 7- Std dev service time error:         0.1417347861916607 min (4.678774 %)
+
+Running time of the simulation: 0 min 0 s 159 ms
 
 
 
 
 Notes:
   1) In this model, the time is expressed in minutes.
-  2) When a user leaves the service (Go Away) another is served.
+  2) When a user leaves the service (Leaving Time) another is served.
   3) An exponential stochastic variable for input time:
      	When the average number of users per hour is requested, the program converts this number (user/hour) in the 
     	average number of users per minute (user/minute). Also, it computes the average time of arrival of a new 
@@ -140,17 +153,11 @@ Notes:
 			(a)  =  [SUM ( t(k) ) for k = 1 to n ] / n      for n --> infinite (the low of the great numbers)
   4) A triangular stochastic variable for input time:
      	"The maximum service time" is a measure of the maximum time recorded for the service.
-     	In fact this is the b parameter for the triangular casual variable T(a,m,b), where (a,b) is the interval in 
+     	In fact this is the b parameter for the triangular stochastic variable T(a,m,b), where (a,b) is the interval in 
      	which there is the function of density for the variable and m is the mode ("the most common (the mode) 
      	service time"). The interval (a, b) is (0, b) because at least one client must be served (so a is 0). The 
      	mode m is the greatest value assumed by the density function of the triangular stochastic variable.
 	As in the previous note, the average service time (b) follows the same rule as for (a).
-	As example, let us consider user [24]:	
-		x[24] = 69.80473426491487 ,                 
-		y[24] = 150.0365004617665 ,                
-		z[24] = 160.93758814506594 .
-	The service time is the value ( 160.93758814506594 - 150.0365004617665 ), so: 
-			st[24] = z[24] - y[24].
 	You can also observe that 
 		the mode for the vector st is for the mode you have put at start for n --> infinite,
 		the expected value for the vector st is for the average service time for n --> infinite,

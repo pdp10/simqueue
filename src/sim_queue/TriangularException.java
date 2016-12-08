@@ -24,7 +24,7 @@ package sim_queue;
 */
 
 
-/** This generates an exception when it is impossible initialise a triangular casual variable. */
+/** Exception when it is impossible to initialise a triangular random variable. */
 class TriangularException extends Exception {
 	private static final long serialVersionUID = 6875008773526834602L;
 	/* Default constructor. */
@@ -37,6 +37,6 @@ class TriangularException extends Exception {
     }
     /* Return the message of this exception. */
     public String getMessage() {
-        return "Paramethers must be a <= m <= b and a < b .";
+        return "Parameters must be a <= m <= b and a < b .";
     } 
 }

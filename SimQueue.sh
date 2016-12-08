@@ -23,5 +23,5 @@
 # SOFTWARE.
 
 
-#java -cp "SimulatedQueue.jar:." sim_queue/Main
-java -cp "SimulatedQueue.jar:." sim_queue/MainTest
+java -cp "SimQueue.jar:." sim_queue/Main
+#java -cp "SimQueue.jar:." sim_queue/MainTest
