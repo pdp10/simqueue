@@ -34,7 +34,7 @@ Let `X ~ f(x)` be a continuous random variable, where `f(x)` is its probability 
 `f(x)` must be integrable in `[a,b]` and its integral `F(X)`, the cumulative distribution function (CDF) for `X`, 
 must be invertible.
 
-Therefore, the random variable `U = F(X)` has a uniform distribution on [0,1] (for a proof, see Ref.[2]). 
+Therefore, the random variable `U = F(X)` has a uniform distribution on `[0,1]` (for a proof, see Ref.[2]). 
 The method states that the desired random variable `F^{-1}(U)` has the same distribution of X.
 
 In practice, one needs to compute:
@@ -47,7 +47,7 @@ X = F^{-1}(U) , U uniform distribution on [0,1]
 
 __Note:__
 If the functions are not integrable or invertible (e.g. normal distribution), other numerical 
-methods are available, such as:
+methods are available (e.g.):
 
 - Box-Muller transform
 - Ziggurat algorithm
@@ -82,15 +82,15 @@ As above, we can obtain a stochastic history for the triangular stochastic varia
 
 ## Example:
 ### Compilation
-Below are the commands for compiling this project. Maven is required.
+Below is the commands for compiling this project. Maven is required.
 ```
 $ mvn package
-$ cd target
-$ java -jar simqueue-devel-jar-with-dependencies.jar 
 ```
 
 ### A simulation
 ```
+$ java -jar target/simqueue-devel-jar-with-dependencies.jar 
+
 simqueue: a queue simulator based on stochastic time events.
 
 Number of clients to simulate: 50
@@ -194,5 +194,5 @@ Notes:
 
 ## References:
 
-- Malesani Paolo, `Ricerca Operativa`;
-- Sheldon M. Ross, `A first course in probability`;
+1. Malesani Paolo, `Ricerca Operativa`
+2. Sheldon M. Ross, `A first course in probability`
