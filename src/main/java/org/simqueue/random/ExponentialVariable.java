@@ -31,7 +31,7 @@ import org.simqueue.exception.ExponentialException;
 /** An exponential random variable */
 public class ExponentialVariable extends RandomVariable {
 
-    // the lambda of expVar
+    /** lambda parameter */
     private double lambda = 0.0d;
 	
     /** 

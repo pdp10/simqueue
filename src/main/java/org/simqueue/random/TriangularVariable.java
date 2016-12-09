@@ -30,11 +30,11 @@ import org.simqueue.exception.TriangularException;
 /** An triangular random variable */
 public class TriangularVariable extends RandomVariable {
 
-    // parameter a of triVar
+    /** parameter a (min) */
 	private double a = 0.0d;
-	// parameter m of triVar the mode
+	/** parameter m (mode) */ 
 	private double m = 0.0d;
-	// parameter b of triVar
+	/** parameter b (max) */
 	private double b = 0.0d;
 	
     /** 
