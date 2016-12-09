@@ -35,30 +35,38 @@ import org.simqueue.statistics.BasicStatistics;
  * This is a queue simulator based on stochastic time events.
  * The aim is to simulate a real queue, like a queue at the post office,
  * where users arrive in a random order. When a client arrives, s/he is
- * the last one who will be served. (FIFO = First In First Out). In particular
- * there are two stochastic factors:
- * 1) the time of arrive,
- * 2) the time of service.
- * Meanwhile, clients arrive and others leave.
+ * the last one who will be served. Therefore, this is a FIFO (First In First Out) queue.
+ * For each client there are two stochastic events: arrival and service times. 
+ * In this simulation, the arrival time is sampled from an exponential distribution, 
+ * whereas the service time from a triangular distribution. 
  * This simulation shows when a person arrives, is ready to be served, and finally leaves.    
  */
 public class SimQueue {
 
-	// the stochastic history 
+	/** The history of stochastic queue events. */ 
     private double[][] queue;
-    // the number of person to server 
-    private int n = 1;
-    // the name of the last entered. no client
-    private int n1 = -1;
-    // the name of the last served. no client
-    private int n2 = -1;
-    // time: it is the actual time
-    private double t = 0.0d;
-    // time: it shows when the next client will arrive 
-    private double t1 = 0.0d;
-    // time: it shows when has finished his activity
-    private double t2 = Double.MAX_VALUE;   
-    // infinite
+    
+    /** The number of clients to serve. */
+    private int totalClientsToServe = 1;
+    
+    /** The number of arrived clients. At start no client. 
+     * Note: 0 is the first client. */
+    private int numClientsArrived = -1;
+    
+    /** The number of served clients. At start no client. 
+     * Note: 0 is the first client. */
+    private int numClientsServed = -1;
+    
+    /** The current simulation time. */
+    private double currentTime = 0.0d;
+    
+    /** The time the next client is about to arrive. */ 
+    private double timeNextClientArrives = 0.0d;
+    
+    /** The time the client being served will leave. */
+    private double timeServedClientLeaves = Double.MAX_VALUE;   
+    
+    /** The maximum time for this simulation. */
     public static final double MAX_SIM_TIME = Double.MAX_VALUE; 
     
     /** Exponential stochastic variable simulating the client arrival time. */
@@ -78,8 +86,8 @@ public class SimQueue {
      */
     public SimQueue(int _n) throws SimQueueException{
         if( _n > 0 ) {
-            n = _n;
-            queue = new double[3][n];
+            totalClientsToServe = _n;
+            queue = new double[3][totalClientsToServe];
             try {
             	expVar = new ExponentialVariable(1);
             	triVar = new TriangularVariable(0, 1, 2);
@@ -102,8 +110,8 @@ public class SimQueue {
     public SimQueue(int _n, double expB, double triA, double triM, double triB) 
     		throws SimQueueException, ExponentialException, TriangularException {
         if( _n > 0 ) {
-            n = _n;
-            queue = new double[3][n];
+            totalClientsToServe = _n;
+            queue = new double[3][totalClientsToServe];
             expVar = new ExponentialVariable(expB);
             triVar = new TriangularVariable(triA, triM, triB);
         } else
@@ -135,7 +143,7 @@ public class SimQueue {
     
     /** Return the capacity of the queue. */
     public int getN() { 
-        return n; 
+        return totalClientsToServe; 
     }
     
     /**
@@ -152,37 +160,37 @@ public class SimQueue {
     public void run() {
         boolean stop = false;
         while( !stop ) {
-            if( t1 < t2 ) {                // a new client arrives
+            if( timeNextClientArrives < timeServedClientLeaves ) {                // a new client arrives
                 // put this application in the sleeping state. 
                 try { Thread.sleep(5); }
-                catch(InterruptedException e) { System.out.println("Thread interrupted early."); }
-                t = t1;
-                n1++;
-                queue[0][n1] = t;
-                if( n1 == n - 1 )           // limit for the queue capacity
-                    t1 = MAX_SIM_TIME;
+                catch(InterruptedException e) { System.err.println("Thread interrupted early."); }
+                currentTime = timeNextClientArrives;
+                numClientsArrived++;
+                queue[0][numClientsArrived] = currentTime;
+                if( numClientsArrived == totalClientsToServe - 1 )           // limit for the queue capacity
+                    timeNextClientArrives = MAX_SIM_TIME;
                 else
-                    t1 = t + clientArrives();  // sets the time for the next client
-                if( t2 == MAX_SIM_TIME ) {             // at start only the first client can be served immediately
-                    n2++;
-                    t2 = t + clientIsBeingServed();
-                    queue[1][n2] = t;
+                    timeNextClientArrives = currentTime + clientArrives();  // sets the time for the next client
+                if( timeServedClientLeaves == MAX_SIM_TIME ) {             // at start only the first client can be served immediately
+                    numClientsServed++;
+                    timeServedClientLeaves = currentTime + clientIsBeingServed();
+                    queue[1][numClientsServed] = currentTime;
                 }
 
             } else {                        // an old client leaves or is served
-                if( t2 == MAX_SIM_TIME )    // exit condition
+                if( timeServedClientLeaves == MAX_SIM_TIME )    // exit condition
                     stop = true;
                 else {                       // a served client goes away
-                    t = t2;
-                    queue[2][n2] = t;
+                    currentTime = timeServedClientLeaves;
+                    queue[2][numClientsServed] = currentTime;
                 }
-                if( n1 > n2 ) {              // a waiting client is served
-                    n2++;
-                    t2 = t + clientIsBeingServed();
-                    queue[1][n2] = t;
+                if( numClientsArrived > numClientsServed ) {              // a waiting client is served
+                    numClientsServed++;
+                    timeServedClientLeaves = currentTime + clientIsBeingServed();
+                    queue[1][numClientsServed] = currentTime;
                 }
                 else
-                    t2 = MAX_SIM_TIME;
+                    timeServedClientLeaves = MAX_SIM_TIME;
             }
         }
         
@@ -249,7 +257,7 @@ public class SimQueue {
     public String getHistoryString() {
         String s = "Client\tArrival Time (min)\tServing Time (min)\tLeaving Time (min)\n" +
                     		"------\t------------------\t------------------\t------------------\n";
-        for( int j = 0; j < n; j++ ) {
+        for( int j = 0; j < totalClientsToServe; j++ ) {
             s += "[" + (j+1) + "]\t" + queue[0][j] + "\t" + queue[1][j] + "\t" + queue[2][j] + "\n";
             if( j % 5 == 0) {
                 try { Thread.sleep(5); }
