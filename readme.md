@@ -22,50 +22,56 @@ whereas the service time from a triangular distribution.
 This simulation shows when a person arrives, is ready to be served, and finally leaves.    
 
 
-## About stochastic variables:
-To simulate a continuous stochastic variable, we use the reversed transformation method. 
-In more detail, let X be a continuous stochastic variable, so X ~ f(x), where f(x) is its 
-density function. Let F(x) be its distribution function. Let f(x) be a increase monotonous 
-function, so F(x) is invertible. We can demonstrate that
-```
-U = F(X)
-```
-where U is the uniform stochastic variable (for a proof, see "A first course in probability" by Ross). 
-U is exactly F(X) iff X is x, so where
-```
-U = F(X = x).
-```
-Therefore, we obtain a stochastic history for the uniform stochastic variable.
-As we are interested in the stochastic history for the stochastic variable X,
-we must calculate the reverse function:
-```
-X = F[-1](U)    (where F[-1] is the reverse function of F).
-```
+## Sampling random variables:
+To simulate a continuous random variable, the _inverse transformation method_ 
+(also called inverse transform sampling) was used. To use this method, the desired 
+distribution function must be integrable and invertible. 
 
-Simqueue samples clients arrival times from an extponential distribution, whereas 
-service times are sampled from a triangular distribution. 
+The exponential and triangular distribution functions chosen for simulating client arrival 
+and service times, are both integrable and invertible.
+
+Let `X ~ f(x)` be a continuous random variable, where `f(x)` is its probability density function (PDF). 
+`f(x)` must be integrable in `[a,b]` and its integral `F(X)`, the cumulative distribution function (CDF) for `X`, 
+must be invertible.
+
+Therefore, the random variable `U = F(X)` has a uniform distribution on [0,1] (for a proof, see Ref.[2]). 
+The method states that the desired random variable `F^{-1}(U)` has the same distribution of X.
+
+In practice, one needs to compute:
+```
+F(y) = \int_a^b f(x) dx
+X = F^{-1}(U) , U uniform distribution on [0,1]
+```
+`x_i` computed from `F^{-1}(u_i)` will have the desired distribution function.
+
+
+__Note:__
+If the functions are not integrable or invertible (e.g. normal distribution), other numerical 
+methods are available, such as:
+
+- Box-Muller transform
+- Ziggurat algorithm
+
 
 ### Exponential variable
-Let X ~ Eb be an exponential stochastic variable of parameter b.
-Its density function is:
+Let X ~ Exp(k) be an exponential random variable. Its PDF is:
 ```
-f(x) =  b*e exp(-b*x)   if x >= 0
-    	0		if x < 0
+f(x) =  k*e^{-k*x}   if x >= 0
+    	0		     otherwise
 ```	    
-Its distribution function is:
+Its CDF is:
 ```
-y = F(z) = INTEGRAL( f(z) dz )  from 0 to z
-	 = 1 - e exp(-b*z)
+U = F(X) = \int_0^{+inf} f(x) dx
+	     = 1 - e^(-k*x)
 ```
-(y is an uniform variable U !!)
-The reverse function of F(z) is:
+The reverse function of F(X) is:
 ```
-z = F[-1](y) = -( ln(1-y) / b )
+X = F[-1](U) = -( ln(1 - u) / k )
 ```
 As a random variable `rand` is computed from a uniform stochastic variable 
 in every programming language, we can write
 ```
-z = -( ln(1 - rand()) / b )
+x_i = -( ln(1 - rand()) / k )
 ```
 
 ### Triangular variable
