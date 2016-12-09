@@ -23,8 +23,6 @@ package org.simqueue.sim;
  * SOFTWARE.
 */
 
-import java.util.*;
-
 import org.simqueue.exception.ExponentialException;
 import org.simqueue.exception.SimQueueException;
 import org.simqueue.exception.TriangularException;
@@ -44,7 +42,7 @@ import org.simqueue.statistics.BasicStatistics;
  * Meanwhile, clients arrive and others leave.
  * This simulation shows when a person arrives, is ready to be served, and finally leaves.    
  */
-public class SimQueue implements Runnable {
+public class SimQueue {
 
 	// the stochastic history 
     private double[][] queue;
@@ -59,13 +57,9 @@ public class SimQueue implements Runnable {
     // time: it shows when the next client will arrive 
     private double t1 = 0.0d;
     // time: it shows when has finished his activity
-    private double t2 = 999999999.9d;   
+    private double t2 = Double.MAX_VALUE;   
     // infinite
-    private double limit = 999999999.9d;
-
-    private Calendar 
-	start = null, 
-	end = null;  // measure the running time of the simulation    
+    public static final double MAX_SIM_TIME = Double.MAX_VALUE; 
     
     // exponential stochastic variable
     private ExponentialVariable expVar = null;
@@ -113,15 +107,9 @@ public class SimQueue implements Runnable {
         return n; 
     }
 
-    /** Return the limit used as infinite. Limit value is 999999999.9 . */
-    public double getLimit() { 
-        return limit; 
-    }
-
     /** Run a simulated queue. 
      *  This method creates an stochastic history of a simulated queue. */
     public void run() {
-        start = Calendar.getInstance();
         boolean stop = false;
         while( !stop ) {
             if( t1 < t2 ) {                // a new client arrives
@@ -132,17 +120,17 @@ public class SimQueue implements Runnable {
                 n1++;
                 queue[0][n1] = t;
                 if( n1 == n - 1 )           // limit for the queue capacity
-                    t1 = getLimit();
+                    t1 = MAX_SIM_TIME;
                 else
                     t1 = t + clientArrives();  // sets the time for the next client
-                if( t2 == getLimit() ) {             // at start only the first client can be served immediately
+                if( t2 == MAX_SIM_TIME ) {             // at start only the first client can be served immediately
                     n2++;
                     t2 = t + clientIsBeingServed();
                     queue[1][n2] = t;
                 }
 
             } else {                        // an old client leaves or is served
-                if( t2 == getLimit() )           // exit condition
+                if( t2 == MAX_SIM_TIME )           // exit condition
                     stop = true;
                 else {                       // a served client goes away
                     t = t2;
@@ -154,10 +142,9 @@ public class SimQueue implements Runnable {
                     queue[1][n2] = t;
                 }
                 else
-                    t2 = getLimit();
+                    t2 = MAX_SIM_TIME;
             }
         }
-        end = Calendar.getInstance();
         
         // calculate the statistics
         stats.setMeanArrivalTime(queue);
@@ -216,25 +203,6 @@ public class SimQueue implements Runnable {
                 try { Thread.sleep(5); }
                 catch(InterruptedException e) { System.out.println("Thread interrupted early."); }
             }
-        }
-    }
-
-    /** Print the running time of the simulation. */
-    public void printTime() {
-        if(start != null && end != null) {
-            int m  = end.get( Calendar.MINUTE ) - start.get( Calendar.MINUTE );
-            int s  = end.get( Calendar.SECOND ) - start.get( Calendar.SECOND );
-            int ms = end.get( Calendar.MILLISECOND ) - start.get( Calendar.MILLISECOND );
-            if( m < 0 ) m = 60 + m;
-            if( s < 0 ) {
-                m--;
-                s = 60 + s;
-            }
-            if( ms < 0 ) {
-                s--;
-                ms = 1000 + ms;
-            }
-            System.out.println( "Running time of the simulation: " + m + " min " + s + " s " + ms + " ms");
         }
     }
 
