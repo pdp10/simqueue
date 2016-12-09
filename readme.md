@@ -68,11 +68,12 @@ The reverse function of F(X) is:
 ```
 X = F[-1](U) = -( ln(1 - u) / k )
 ```
-As a random variable `rand` is computed from a uniform stochastic variable 
+As a random variable `u=rand()` is computed from a uniform stochastic variable 
 in every programming language, we can write
 ```
-x_i = -( ln(1 - rand()) / k )
+x_i = -( ln(u_i) / k ) = -( ln(1 - u_i) / k )
 ```
+
 
 ### Triangular variable
 As above, we can obtain a stochastic history for the triangular stochastic variable.	
