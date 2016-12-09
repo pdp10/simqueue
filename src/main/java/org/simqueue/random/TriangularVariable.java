@@ -62,10 +62,10 @@ public class TriangularVariable extends RandomVariable {
 	/** {@inheritDoc} */
 	public double getNext() {
         //generate triangular stochastic variable
-        double y = rand.nextDouble();
-        if( y < ((m - a) / (b - a)) )
-            return a + Math.sqrt( (b-a)*(m-a)*y );
-        return b - Math.sqrt( (b-a)*(b-m)*(1-y) );      
+        double u = rand.nextDouble();
+        if( u <= ((m - a) / (b - a)) )
+            return a + Math.sqrt( (b-a)*(m-a)*u );
+        return b - Math.sqrt( (b-a)*(b-m)*(1-u) );      
 	}
 
 	/**

@@ -62,8 +62,9 @@ public class ExponentialVariable extends RandomVariable {
 
 	/** {@inheritDoc} */
 	public double getNext() {
-        //generate exponential stochastic variable
-        return - ( Math.log( 1-rand.nextDouble() ) / lambda );
+    //generate exponential stochastic variable
+	  double u = rand.nextDouble();
+    return - ( Math.log(u) / lambda );
 	}
 
 
