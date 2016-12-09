@@ -25,11 +25,13 @@ package org.simqueue;
  */
 
 import java.io.*;
+import java.util.Calendar;
 
 import org.simqueue.exception.ExponentialException;
 import org.simqueue.exception.SimQueueException;
 import org.simqueue.exception.TriangularException;
 import org.simqueue.sim.SimQueue;
+import org.simqueue.utils.ElapsedTime;
 
 /**
  * Main class for SimQueue.
@@ -47,7 +49,11 @@ public class Main {
 		if (args.length > 0) {
 			fileout = args[0];
 		}
-
+		
+		// Used for computing the start and end times.
+		Calendar start = null;
+		Calendar end = null;
+		
 		SimQueue Q = null;
 		Integer num = null;
 		Double expVar_b = null, triVar_a = new Double(0.0), triVar_m = null, triVar_b = null;
@@ -73,7 +79,10 @@ public class Main {
 			Q = new SimQueue(num.intValue(), expVar_b.doubleValue(),
 					triVar_a.doubleValue(), triVar_m.doubleValue(),
 					triVar_b.doubleValue());
+			
+			start = Calendar.getInstance();
 			Q.run();
+			end = Calendar.getInstance();
 
 			System.out
 					.println("\nStochastic generation of Arrival/Service/Leaving times for this simulated queue (FIFO):\n");
@@ -85,7 +94,7 @@ public class Main {
 			System.out.println();
 			Q.printErrorStatistics();
 			System.out.println();
-			Q.printTime();
+			System.out.println(ElapsedTime.compute(start, end));
 
 			// get the queue of events (arrival, service, and leave times)
 			double[][] queue = Q.getQueue();

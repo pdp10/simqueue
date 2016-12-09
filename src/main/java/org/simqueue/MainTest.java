@@ -25,11 +25,13 @@ package org.simqueue;
  */
 
 import java.io.*;
+import java.util.Calendar;
 
 import org.simqueue.exception.ExponentialException;
 import org.simqueue.exception.SimQueueException;
 import org.simqueue.exception.TriangularException;
 import org.simqueue.sim.SimQueue;
+import org.simqueue.utils.ElapsedTime;
 
 /**
  * Main class used for testing SimQueue.
@@ -47,6 +49,10 @@ public class MainTest {
 		if (args.length > 0) {
 			fileout = args[0];
 		}
+		
+		// Used for computing the start and end times.
+		Calendar start = null;
+		Calendar end = null;
 
 		SimQueue Q = null;
 
@@ -67,7 +73,10 @@ public class MainTest {
 
 		try {
 			Q = new SimQueue(num, expVar_b, triVar_a, triVar_m, triVar_b);
+			
+			start = Calendar.getInstance();
 			Q.run();
+			end = Calendar.getInstance();
 
 			Q.printHistory();
 			System.out.println();
@@ -77,7 +86,7 @@ public class MainTest {
 			System.out.println();
 			Q.printErrorStatistics();
 			System.out.println();
-			Q.printTime();
+			System.out.println(ElapsedTime.compute(start, end));
 
 			// get the queue of events (arrival, service, and leave times)
 			double[][] queue = Q.getQueue();
