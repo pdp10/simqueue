@@ -62,19 +62,19 @@ public class MainTest {
 		int num = 50;
 
 		// average number of customers per minute
-		double expVar_b = 1.6d;
-
-		// length of the most common (the mode) service time [min]
-		double triVar_m = 5d;
+		double expVar_lambda = 1.6d;
 
 		// length of the shortest service time [min] (no service)
 		double triVar_a = 0.0d;
 
+		// length of the most common (the mode) service time [min]
+		double triVar_m = 5d;
+		
 		// length of the maximum service time [min]
 		double triVar_b = 60d;
 
 		try {
-			Q = new SimQueue(num, expVar_b, triVar_a, triVar_m, triVar_b);
+			Q = new SimQueue(num, expVar_lambda, triVar_a, triVar_m, triVar_b);
 			
 			start = Calendar.getInstance();
 			Q.run();

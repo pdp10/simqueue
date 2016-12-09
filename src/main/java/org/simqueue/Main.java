@@ -58,7 +58,7 @@ public class Main {
 		
 		SimQueue Q = null;
 		Integer num = null;
-		Double expVar_b = null, triVar_a = new Double(0.0), triVar_m = null, triVar_b = null;
+		Double expVar_lambda = null, triVar_a = new Double(0.0), triVar_m = null, triVar_b = null;
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
 		System.out
@@ -69,8 +69,8 @@ public class Main {
 			num = new Integer(in.readLine());
 
 			System.out.print("Mean number of clients per hour: ");
-			expVar_b = new Double(in.readLine());
-			expVar_b = new Double(expVar_b.doubleValue() / 60);
+			expVar_lambda = new Double(in.readLine());
+			expVar_lambda = new Double(expVar_lambda.doubleValue() / 60);
 
 			System.out.print("Most common service time [min] (the mode): ");
 			triVar_m = new Double(in.readLine());
@@ -78,7 +78,7 @@ public class Main {
 			System.out.print("Longest service time [min]: ");
 			triVar_b = new Double(in.readLine());
 
-			Q = new SimQueue(num.intValue(), expVar_b.doubleValue(),
+			Q = new SimQueue(num.intValue(), expVar_lambda.doubleValue(),
 					triVar_a.doubleValue(), triVar_m.doubleValue(),
 					triVar_b.doubleValue());
 			

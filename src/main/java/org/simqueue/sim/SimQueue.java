@@ -169,7 +169,7 @@ public class SimQueue {
      */
     public void run() {
         boolean stop = false;
-        while( !stop ) {
+        while( !stop ) {        	
             if( timeNextClientArrives < timeServedClientLeaves ) {                // a new client arrives
                 // put this application in the sleeping state. 
                 try { Thread.sleep(5); }
@@ -180,17 +180,18 @@ public class SimQueue {
                 if( numClientsArrived == totalClientsToServe - 1 )           // limit for the queue capacity
                     timeNextClientArrives = MAX_SIM_TIME;
                 else
-                    timeNextClientArrives = currentTime + clientArrives();  // sets the time for the next client
-                if( timeServedClientLeaves == MAX_SIM_TIME ) {             // at start only the first client can be served immediately
+                    timeNextClientArrives = currentTime + clientArrives();  // set the time for the next client
+                if( timeServedClientLeaves == MAX_SIM_TIME ) {
+                	// at start only the first client can be served immediately
                     numClientsServed++;
                     timeServedClientLeaves = currentTime + clientIsBeingServed();
                     queue[1][numClientsServed] = currentTime;
                 }
 
-            } else {                        // an old client leaves or is served
+            } else {                        // an previous client leaves or is served
                 if( timeServedClientLeaves == MAX_SIM_TIME )    // exit condition
                     stop = true;
-                else {                       // a served client goes away
+                else {                       // a served client leaves
                     currentTime = timeServedClientLeaves;
                     queue[2][numClientsServed] = currentTime;
                 }
