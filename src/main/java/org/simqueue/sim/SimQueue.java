@@ -83,8 +83,8 @@ public class SimQueue {
      * @param queueLength the length of the queue
      * @param lambda the lambda parameter
      * @param a the a parameter (min)
-     * @param b the m parameter (mode)
-     * @param c the b parameter (max)
+     * @param m the m parameter (mode)
+     * @param b the b parameter (max)
      * @throws QueueSimulationException if queueLength < 1. 
      * @throws ExponentialException if expLambda < 0. 
      * @throws TriangularException if not a <= m <= b or not a < b.
@@ -113,8 +113,8 @@ public class SimQueue {
      * Set the triangular stochastic variable simulating the client service time. 
      * 
      * @param a the a parameter (min)
-     * @param b the m parameter (mode)
-     * @param c the b parameter (max)
+     * @param m the m parameter (mode)
+     * @param b the b parameter (max)
      * @throws TriangularException if not a <= m <= b or not a < b.
      */
     public void setTriangularVariable(double a, double m, double b) throws TriangularException {
