@@ -265,13 +265,12 @@ public class SimQueue {
     }
 
     /** 
-     * Return the relative errors and the percents of error 
-     * between simulated and theoretical statistics.
+     * Return the absolute errors between simulated and theoretical statistics.
      *  
      * @return the string containing the errors 
      */
     public String getErrorStatisticsString() {   // + percent
-        return "[RELATIVE ERRORS]" +
+        return "[ABSOLUTE ERRORS]" +
                 "\n 1- Mean arrive time error:  \t\t" + stats.meanArrivalTimeError(expVar.getTheoreticalMean()) + " min " +
                 "\n 2- Variance arrive time error:  \t" + stats.varArrivalTimeError(expVar.getTheoreticalVar()) + " min^2 " +
                 "\n 3- Std dev arrive time error:   \t" + stats.sdArrivalTimeError(expVar.getTheoreticalSD()) + " min " +

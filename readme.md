@@ -173,7 +173,7 @@ Client  Arrival Time (min)      Serving Time (min)      Leaving Time (min)
  6- Variance service time:      2.795310672991756 min^2 
  7- Std dev service time:       1.6719182614565091 min 
 
-[RELATIVE ERRORS]
+[ABSOUTE ERRORS]
  1- Mean arrive time error:             0.18591048233489316 min 
  2- Variance arrive time error:         0.8578076077654941 min^2 
  3- Std dev arrive time error:          0.18591048233489316 min 
