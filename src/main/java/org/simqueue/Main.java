@@ -86,13 +86,13 @@ public class Main {
 
 			System.out
 					.println("\nStochastic generation of Arrival/Service/Leaving times for this simulated queue (FIFO):\n");
-			Q.printHistory();
+			System.out.println(Q.getHistoryString());
 			System.out.println();
-			Q.printTheoreticalStatistics();
+			System.out.println(Q.getTheoreticalStatisticsString());
 			System.out.println();
-			Q.printSimulatedStatistics();
+			System.out.println(Q.getSimulatedStatisticsString());
 			System.out.println();
-			Q.printErrorStatistics();
+			System.out.println(Q.getErrorStatisticsString());
 			System.out.println();
 			System.out.println(ElapsedTime.compute(start, end));
 

@@ -130,7 +130,7 @@ public class SimQueue {
                 }
 
             } else {                        // an old client leaves or is served
-                if( t2 == MAX_SIM_TIME )           // exit condition
+                if( t2 == MAX_SIM_TIME )    // exit condition
                     stop = true;
                 else {                       // a served client goes away
                     t = t2;
@@ -157,53 +157,73 @@ public class SimQueue {
         stats.setSDServiceTime(queue);
     }
 
-    /** Print the statistics of the queue using the parameters of the stochastic variables. */
-    public void printTheoreticalStatistics() {
-	    System.out.println("[THEORETICAL VALUES]" +
+    /** 
+     * Return a string containing the statistics for this queue using 
+     * the parameters of the stochastic variables. 
+     * 
+     * @return the theoretical statistics string
+     */
+    public String getTheoreticalStatisticsString() {
+	    return "[THEORETICAL VALUES]" +
 			       "\n 1- Mean arrive time: \t\t" + expVar.getTheoreticalMean() + " min" +
 			       "\n 2- Variance arrive time: \t" + expVar.getTheoreticalVar() + " min^2" +
 			       "\n 3- Std dev arrive time:  \t" + expVar.getTheoreticalSD() + " min" +
 			       "\n 4- Maximum service time: \t" + triVar.getb() + " min" +
 			       "\n 5- Mean service time:\t\t" + triVar.getTheoreticalMean() + " min" +
 			       "\n 6- Variance service time:\t" + triVar.getTheoreticalVar() + " min^2" +
-			       "\n 7- Std dev service time: \t" + triVar.getTheoreticalSD() + " min");
+			       "\n 7- Std dev service time: \t" + triVar.getTheoreticalSD() + " min";
     }
 
-    /** Print the statistics of the queue using the simulated parameters of the stochastic variables. */
-    public void printSimulatedStatistics() {   // + percent
-        System.out.println("[SIMULATED VALUES]" +
+    /** 
+     * Return a string containing the statistics for this queue using 
+     * the simulated parameters of the stochastic variables. 
+     * 
+     * @return the simulated statistics string
+     */
+    public String getSimulatedStatisticsString() {   // + percent
+        return "[SIMULATED VALUES]" +
                 "\n 1- Mean arrive time: \t\t" + stats.getMeanArrivalTime() + " min " +
                 "\n 2- Variance arrive time: \t" + stats.getVarArrivalTime() + " min^2 " +
                 "\n 3- Std dev arrive time:  \t" + stats.getSDArrivalTime() + " min " +
                 "\n 4- Maximum service time: \t" + stats.getMaxServiceTime() + " min " + 
                 "\n 5- Mean service time:\t\t" + stats.getMeanServiceTime() + " min " + 
                 "\n 6- Variance service time:\t" + stats.getVarServiceTime() + " min^2 " +
-                "\n 7- Std dev service time: \t" + stats.getSDServiceTime() + " min ");
+                "\n 7- Std dev service time: \t" + stats.getSDServiceTime() + " min ";
     }
 
-    /** Print the relative errors and the percents of error between simulated and theoretical statistics. */
-    public void printErrorStatistics() {   // + percent
-        System.out.println("[RELATIVE ERRORS]" +
+    /** 
+     * Return the relative errors and the percents of error 
+     * between simulated and theoretical statistics.
+     *  
+     * @return the string containing the errors 
+     */
+    public String getErrorStatisticsString() {   // + percent
+        return "[RELATIVE ERRORS]" +
                 "\n 1- Mean arrive time error:  \t\t" + stats.meanArrivalTimeError(expVar.getTheoreticalMean()) + " min " +
                 "\n 2- Variance arrive time error:  \t" + stats.varArrivalTimeError(expVar.getTheoreticalVar()) + " min^2 " +
                 "\n 3- Std dev arrive time error:   \t" + stats.sdArrivalTimeError(expVar.getTheoreticalSD()) + " min " +
                 "\n 4- Maximum service time error:  \t" + stats.maxServiceTimeError(triVar.getb()) + " min " +
                 "\n 5- Mean service time error: \t\t" + stats.meanServiceTimeError(triVar.getTheoreticalMean()) + " min " +
                 "\n 6- Variance service time error: \t" + stats.varServiceTimeError(triVar.getTheoreticalVar()) + " min^2 " +
-                "\n 7- Std dev service time error:  \t" + stats.sdServiceTimeError(triVar.getTheoreticalSD()) + " min ");
+                "\n 7- Std dev service time error:  \t" + stats.sdServiceTimeError(triVar.getTheoreticalSD()) + " min ";
     }
 
-    /** Print the stochastic history of the queue. */
-    public void printHistory() {
-        System.out.println( "Client\tArrival Time (min)\tServing Time (min)\tLeaving Time (min)\n" +
-                    		"------\t------------------\t------------------\t------------------\n" );
+    /** 
+     * Return the string containing the stochastic history for this queue. 
+     * 
+     * @return the history string
+     */
+    public String getHistoryString() {
+        String s = "Client\tArrival Time (min)\tServing Time (min)\tLeaving Time (min)\n" +
+                    		"------\t------------------\t------------------\t------------------\n";
         for( int j = 0; j < n; j++ ) {
-            System.out.println( "[" + (j+1) + "]\t" + queue[0][j] + "\t" + queue[1][j] + "\t" + queue[2][j] );
+            s += "[" + (j+1) + "]\t" + queue[0][j] + "\t" + queue[1][j] + "\t" + queue[2][j] + "\n";
             if( j % 5 == 0) {
                 try { Thread.sleep(5); }
-                catch(InterruptedException e) { System.out.println("Thread interrupted early."); }
+                catch(InterruptedException e) { System.err.println("Thread interrupted early."); }
             }
         }
+        return s;
     }
 
 } // end class SimQueue
