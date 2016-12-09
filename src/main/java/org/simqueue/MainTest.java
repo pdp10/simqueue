@@ -25,8 +25,10 @@ package org.simqueue;
  */
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.Calendar;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.simqueue.exception.ExponentialException;
 import org.simqueue.exception.SimQueueException;
 import org.simqueue.exception.TriangularException;
@@ -62,16 +64,16 @@ public class MainTest {
 		int num = 50;
 
 		// average number of customers per minute
-		double expVar_lambda = 1.6d;
+		double expVar_lambda = 0.416d;
 
 		// length of the shortest service time [min] (no service)
 		double triVar_a = 0.0d;
 
 		// length of the most common (the mode) service time [min]
-		double triVar_m = 5d;
+		double triVar_m = 3.5d;
 		
 		// length of the maximum service time [min]
-		double triVar_b = 60d;
+		double triVar_b = 10d;
 
 		try {
 			Q = new SimQueue(num, expVar_lambda, triVar_a, triVar_m, triVar_b);
@@ -91,22 +93,26 @@ public class MainTest {
 			System.out.println(ElapsedTime.compute(start, end));
 
 			// get the queue of events (arrival, service, and leave times)
-			double[][] queue = Q.getQueue();
+			double[][] history = Q.getHistory();
+			
+			// retrieve the arrival time samples and calculate the CDF
+			Double[] arrivalTimeSamples = ArrayUtils.toObject(Q.getArrivalTimesDistrib());			
+			Arrays.sort(arrivalTimeSamples);
 
+			
+			// retrieve the service time samples
+			Double[] serviceTimeSamples = ArrayUtils.toObject(Q.getServiceTimesDistrib());	
+			Arrays.sort(serviceTimeSamples);
+
+			
 			// write the queue to file
 			try (PrintWriter out = new PrintWriter(new BufferedWriter(
 					new FileWriter(fileout, false)))) {
-				// out.println("Client\tArrivalTime\tServiceTime\tLeavingTime");
-				// for( int j = 0; j < queue[0].length; j++ ) {
-				// out.println(j + "\t" + queue[0][j] + "\t" + queue[1][j] +
-				// "\t" + queue[2][j]);
-				// }
-				out.println("Time\tStartServiceTime\tEndServiceTime");
-				for (int j = 0; j < queue[0].length; j++) {
-					out.println(queue[0][j] + "\t" + queue[1][j] + "\t"
-							+ queue[2][j]);
+				out.println("Time\tArrivalTime\tServiceTime\tLeavingTime\tArrivalTimeSamples\tServiceTimeSamples");
+				for (int j = 0; j < history[0].length; j++) {
+					out.println(j + "\t" + history[0][j] + "\t" + history[1][j] + "\t" + history[2][j] 
+								  + "\t" + arrivalTimeSamples[j] + "\t" + serviceTimeSamples[j]);
 				}
-
 			} catch (IOException e) {
 				System.err.println(e);
 			}

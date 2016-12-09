@@ -122,7 +122,7 @@ public class SimQueue {
     }
     
     /** Return the queue of simulated events */
-    public double[][] getQueue() { 
+    public double[][] getHistory() { 
         return queue; 
     }
     
@@ -158,7 +158,7 @@ public class SimQueue {
      * 
      * @return the distribution samples.
      */
-    public double[] getArrivalTimesSamples() {
+    public double[] getArrivalTimesDistrib() {
     	double[] samples = new double[queue[0].length];
 		samples[0] = queue[0][0];
     	for(int i = 1; i < samples.length; i++) {
@@ -173,7 +173,7 @@ public class SimQueue {
      * 
      * @return the distribution samples.
      */
-    public double[] getServiceTimesSamples() {
+    public double[] getServiceTimesDistrib() {
     	double[] samples = new double[queue[0].length];
     	for(int i = 0; i < samples.length; i++) {
     		samples[i] = queue[2][i] - queue[1][i];
@@ -204,14 +204,14 @@ public class SimQueue {
     	// The simulation starts when the first client arrives. This is time 0.
     	queue[0][0] = 0;
     	for(int i=1; i < queue[0].length; i++) {
-    		queue[0][i] = queue[0][i-1] + clientArrives();
+    		queue[0][i] = queue[0][i-1] + expVar.getNext();
     	}
     	
     	// Clients are now served in a FIFO policy.
     	// This history is memoryless, but also depends on client arrival time
     	// The first client will be served immediately
     	queue[1][0] = 0;
-    	queue[2][0] = queue[1][0] + clientIsBeingServed();    	
+    	queue[2][0] = queue[1][0] + triVar.getNext();   	
     	for(int i=1; i < queue[0].length; i++) {
     		if(queue[0][i] < queue[2][i-1]) {
     			// A client is waiting
@@ -223,7 +223,7 @@ public class SimQueue {
     			queue[1][i] = queue[0][i];
     		}
     		// the client is served
-        	queue[2][i] = queue[1][i] + clientIsBeingServed();
+        	queue[2][i] = queue[1][i] + triVar.getNext();
     	}
     	
     	// calculate the statistics
@@ -297,27 +297,7 @@ public class SimQueue {
             }
         }
         return s;
-    }
-    
-    /** 
-     * Return the arrival time for the next client. 
-     * This event is extracted from an exponential distribution. 
-     * 
-     * @return the time the next client arrives.
-     */
-    protected double clientArrives() {
-    	return expVar.getNext();
-    }
-
-    /** 
-     * Return the time the next client is being served. 
-     * This event is extracted from a triangular distribution.
-     * 
-     * @return the time the next client is being served.
-     */
-    protected double clientIsBeingServed() {
-    	return triVar.getNext();
-    }    
+    }  
     
     /** 
      * Compute the statistics for this simulation.

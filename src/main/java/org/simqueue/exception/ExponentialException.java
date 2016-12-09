@@ -48,6 +48,6 @@ public class ExponentialException extends Exception {
      * @return message
      */
     public String getMessage() {
-        return "Parameter b mnust be > 0 .";
+        return "Parameter lambda mnust be > 0 .";
     } 
 }

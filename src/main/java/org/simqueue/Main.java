@@ -24,8 +24,16 @@ package org.simqueue;
  * SOFTWARE.
  */
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Calendar;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 import org.simqueue.exception.ExponentialException;
 import org.simqueue.exception.SimQueueException;
@@ -98,16 +106,27 @@ public class Main {
 			System.out.println();
 			System.out.println(ElapsedTime.compute(start, end));
 
+			
 			// get the queue of events (arrival, service, and leave times)
-			double[][] queue = Q.getQueue();
+			double[][] history = Q.getHistory();
+			
+			// retrieve the arrival time samples and calculate the CDF
+			Double[] arrivalTimeSamples = ArrayUtils.toObject(Q.getArrivalTimesDistrib());			
+			Arrays.sort(arrivalTimeSamples);
 
+			
+			// retrieve the service time samples
+			Double[] serviceTimeSamples = ArrayUtils.toObject(Q.getServiceTimesDistrib());	
+			Arrays.sort(serviceTimeSamples);
+
+			
 			// write the queue to file
 			try (PrintWriter out = new PrintWriter(new BufferedWriter(
 					new FileWriter(fileout, false)))) {
-				out.println("Time\tArrivalTime\tServiceTime\tLeavingTime");
-				for (int j = 0; j < queue[0].length; j++) {
-					out.println(j + "\t" + queue[0][j] + "\t" + queue[1][j]
-							+ "\t" + queue[2][j]);
+				out.println("Time\tArrivalTime\tServiceTime\tLeavingTime\tArrivalTimeSamples\tServiceTimeSamples");
+				for (int j = 0; j < history[0].length; j++) {
+					out.println(j + "\t" + history[0][j] + "\t" + history[1][j] + "\t" + history[2][j] 
+								  + "\t" + arrivalTimeSamples[j] + "\t" + serviceTimeSamples[j]);
 				}
 			} catch (IOException e) {
 				System.err.println(e);
