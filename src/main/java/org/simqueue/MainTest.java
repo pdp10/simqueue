@@ -27,6 +27,7 @@ package org.simqueue;
 import java.io.*;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.simqueue.exception.ExponentialException;
@@ -97,7 +98,7 @@ public class MainTest {
 			
 			// retrieve the arrival time samples and calculate the CDF
 			Double[] arrivalTimeSamples = ArrayUtils.toObject(Q.getArrivalTimesDistrib());			
-			Arrays.sort(arrivalTimeSamples);
+			Arrays.sort(arrivalTimeSamples, Collections.reverseOrder());
 
 			
 			// retrieve the service time samples
@@ -108,9 +109,9 @@ public class MainTest {
 			// write the queue to file
 			try (PrintWriter out = new PrintWriter(new BufferedWriter(
 					new FileWriter(fileout, false)))) {
-				out.println("Time\tArrivalTime\tServiceTime\tLeavingTime\tArrivalTimeSamples\tServiceTimeSamples");
+				out.println("Time\tWaitingTimes\tArrivalTimeSamples\tServiceTimeSamples");
 				for (int j = 0; j < history[0].length; j++) {
-					out.println(j + "\t" + history[0][j] + "\t" + history[1][j] + "\t" + history[2][j] 
+					out.println(j + "\t" + (history[1][j]-history[0][j])
 								  + "\t" + arrivalTimeSamples[j] + "\t" + serviceTimeSamples[j]);
 				}
 			} catch (IOException e) {
