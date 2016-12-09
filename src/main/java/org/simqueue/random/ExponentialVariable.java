@@ -31,38 +31,38 @@ import org.simqueue.exception.ExponentialException;
 /** An exponential random variable */
 public class ExponentialVariable extends RandomVariable {
 
-    // parameter b of expVar
-    private double expVar_b = 0.0d;
+    // the lambda of expVar
+    private double lambda = 0.0d;
 	
     /** 
-     * Construct an exponential stochastic variable with parameter b.
-     * b parameter must be  > 0.
+     * Construct an exponential stochastic variable with parameter expLambda.
+     * expLambda parameter must be  > 0.
      *  
-     * @throws ExponentialException if b < 0. 
+     * @throws ExponentialException if expLambda < 0. 
      */    
-	public ExponentialVariable(double b)  throws ExponentialException  {
-        if( b > 0 ) {
-            expVar_b = b;
-            setTheoreticalMean(1 / expVar_b);
-            setTheoreticalVar(1 / ( expVar_b * expVar_b ));
-            setTheoreticalSD(Math.sqrt( 1 / ( expVar_b * expVar_b ) )); 
+	public ExponentialVariable(double expLambda)  throws ExponentialException  {
+        if( expLambda > 0 ) {
+            lambda = expLambda;
+            setTheoreticalMean(1 / lambda);
+            setTheoreticalVar(1 / ( lambda * lambda ));
+            setTheoreticalSD(Math.sqrt( 1 / ( lambda * lambda ) )); 
         } else {
             throw new ExponentialException();
         }
 	}
 	
 	/**
-	 * Return the b parameter for the exponential variable.
-	 * @return b
+	 * Return the lambda parameter for the exponential variable.
+	 * @return lambda
 	 */
-	public double getb() {
-		return expVar_b;
+	public double getLambda() {
+		return lambda;
 	}
 
 	/** {@inheritDoc} */
 	public double getNext() {
         //generate exponential stochastic variable
-        return - ( Math.log( 1-rand.nextDouble() ) / expVar_b );
+        return - ( Math.log( 1-rand.nextDouble() ) / lambda );
 	}
 
 

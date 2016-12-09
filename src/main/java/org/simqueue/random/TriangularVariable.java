@@ -31,25 +31,25 @@ import org.simqueue.exception.TriangularException;
 public class TriangularVariable extends RandomVariable {
 
     // parameter a of triVar
-	private double triVar_a = 0.0d;
+	private double a = 0.0d;
 	// parameter m of triVar the mode
-	private double triVar_m = 0.0d;
+	private double m = 0.0d;
 	// parameter b of triVar
-	private double triVar_b = 0.0d;
+	private double b = 0.0d;
 	
     /** 
      * Construct a triangular stochastic variable with 
      * parameters a, m, and b, such that a <= m <= b and a < b. 
      * 
      * @throws TriangularException if not a <= m <= b or not a < b. */
-	public TriangularVariable( double a, double m, double b ) throws TriangularException {
-        if( a <= m && m <= b && a < b ) {
-            triVar_a = a;
-            triVar_m = m;
-            triVar_b = b;
-            setTheoreticalMean( (0 + triVar_m + triVar_b) / 3 );
-            setTheoreticalVar( ((triVar_b-triVar_a)*(triVar_b-triVar_a) - (triVar_m-triVar_a)*(triVar_b-triVar_m)) / 18 );
-            setTheoreticalSD(Math.sqrt( ((triVar_b-triVar_a)*(triVar_b-triVar_a) - (triVar_m-triVar_a)*(triVar_b-triVar_m)) / 18 ));            
+	public TriangularVariable( double triA, double triM, double triB ) throws TriangularException {
+        if( triA <= triM && triM <= triB && triA < triB ) {
+            a = triA;
+            m = triM;
+            b = triB;
+            setTheoreticalMean( (0 + m + b) / 3 );
+            setTheoreticalVar( ((b-a)*(b-a) - (m-a)*(b-m)) / 18 );
+            setTheoreticalSD(Math.sqrt( ((b-a)*(b-a) - (m-a)*(b-m)) / 18 ));            
         } else {
             throw new TriangularException();
         }
@@ -59,33 +59,33 @@ public class TriangularVariable extends RandomVariable {
 	public double getNext() {
         //generate triangular stochastic variable
         double y = rand.nextDouble();
-        if( y < ((triVar_m - triVar_a) / (triVar_b - triVar_a)) )
-            return triVar_a + Math.sqrt( (triVar_b-triVar_a)*(triVar_m-triVar_a)*y );
-        return triVar_b - Math.sqrt( (triVar_b-triVar_a)*(triVar_b-triVar_m)*(1-y) );      
+        if( y < ((m - a) / (b - a)) )
+            return a + Math.sqrt( (b-a)*(m-a)*y );
+        return b - Math.sqrt( (b-a)*(b-m)*(1-y) );      
 	}
 
 	/**
 	 * Return the parameter a for the triangular variable.
 	 * @return a
 	 */
-	public double geta() {
-		return triVar_a;
+	public double getA() {
+		return a;
 	}
 
 	/**
 	 * Return the parameter m for the triangular variable.
 	 * @return m
 	 */
-	public double getm() {
-		return triVar_m;
+	public double getM() {
+		return m;
 	}
 
 	/**
 	 * Return the parameter b for the triangular variable.
 	 * @return b
 	 */
-	public double getb() {
-		return triVar_b;
+	public double getB() {
+		return b;
 	}
 
 }
