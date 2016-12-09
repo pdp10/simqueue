@@ -62,7 +62,7 @@ public class MainTest {
 		SimQueue Q = null;
 
 		// Queue Capacity
-		int num = 50;
+		int num = 100;
 
 		// average number of customers per minute
 		double expVar_lambda = 0.416d;
