@@ -71,7 +71,10 @@ public class BasicStatistics {
 		sdServiceTimeError = 0d;
 	}
 
-	/** Return the queue length */
+	/** 
+	 * Return the queue length 
+	 * @return the queue length 
+	 */
 	private int getQueueLength(double[][] queue) {
 		if (queue != null && queue.length > 0) {
 			return queue[0].length;
@@ -81,7 +84,11 @@ public class BasicStatistics {
 
 	// setter methods
 	
-	/** Set the simulated mean time of a new user arrive . */
+	/** 
+	 * Set the simulated mean time of a new user arrive . 
+	 * 
+	 * @param queue
+	 */
 	public void setMeanArrivalTime(double[][] queue) {
         if(meanArrivalTime != 0d) { 
         	return;
@@ -95,7 +102,11 @@ public class BasicStatistics {
 	    meanArrivalTime /= n;
     }
 
-	/** Set the simulated variance of the time of a new user arrive . */
+	/** 
+	 * Set the simulated variance of the time of a new user arrive.
+	 * 
+	 * @param queue
+	 */
 	public void setVarArrivalTime(double[][] queue) {
         if(varArrivalTime != 0d) { 
         	return;
@@ -114,7 +125,9 @@ public class BasicStatistics {
 	}
 
 	/**
-	 * Set the simulated standard deviation of the time of a new user arrive .
+	 * Set the simulated standard deviation of the time of a new user arrive.
+	 * 
+	 * @param queue
 	 */
 	public void setSDArrivalTime(double[][] queue) {
         if(sdArrivalTime != 0d) { 
@@ -124,7 +137,10 @@ public class BasicStatistics {
 		sdArrivalTime = Math.sqrt(varArrivalTime);
 	}
 
-	/** Set the maximum simulated service time. */
+	/** Set the maximum simulated service time.
+	 * 
+	 * @param queue
+	 */
 	public void setMaxServiceTime(double[][] queue) {
         if(maxServiceTime != 0d) { 
         	return;
@@ -141,7 +157,11 @@ public class BasicStatistics {
 		}
 	}
 
-	/** Set the minimum simulated service time. */
+	/** 
+	 * Set the minimum simulated service time.
+	 * 
+	 * @param queue
+	 */
 	public void setMinServiceTime(double[][] queue) {
         if(minServiceTime != 0d) { 
         	return;
@@ -159,7 +179,11 @@ public class BasicStatistics {
 		}
 	}
 
-	/** Return the simulated mean service time. */
+	/** 
+	 * Return the simulated mean service time.
+	 * 
+	 * @param queue
+	 */
 	public void setMeanServiceTime(double[][] queue) {
         if(meanServiceTime != 0d) { 
         	return;
@@ -173,7 +197,11 @@ public class BasicStatistics {
 		meanServiceTime /= n;
 	}	
 	
-	/** Set the simulated variance service time. */
+	/** 
+	 * Set the simulated variance service time.
+	 * 
+	 * @param queue
+	 */
 	public void setVarServiceTime(double[][] queue) {
         if(varServiceTime != 0d) { 
         	return;
@@ -188,7 +216,11 @@ public class BasicStatistics {
 		varServiceTime = ((max - min) * (max - min) - (mode - min) * (max - mode)) / 18;
 	}
 
-	/** Set the simulated standard deviation of the service time. */
+	/** 
+	 * Set the simulated standard deviation of the service time.
+	 * 
+	 * @param queue
+	 */
 	public void setSDServiceTime(double[][] queue) {
         if(sdServiceTime != 0d) { 
         	return;
@@ -198,100 +230,147 @@ public class BasicStatistics {
 	}
 
 	// Getter Methods
-	/** Return the simulated mean time of a new user arrive . */
+	/** 
+	 * Return the simulated mean time of a new user arrive.
+	 * 
+	 * @return the statistics
+	 */
 	public double getMeanArrivalTime() {
 		return meanArrivalTime;
 	}
 
-	/** Return the simulated variance of the time of a new user arrive . */
+	/** 
+	 * Return the simulated variance of the time of a new user arrive.
+	 * 
+	 * @return the statistics
+	 */
 	public double getVarArrivalTime() {
 		return varArrivalTime;
 	}
 
 	/**
 	 * Return the simulated standard deviation of the time of a new user arrive.
+	 * 
+	 * @return the statistics
 	 */
 	public double getSDArrivalTime() {
 		return sdArrivalTime;
 	}
 
-	/** Return the simulated mean service time. */
+	/** 
+	 * Return the simulated mean service time.
+	 * 
+	 * @return the statistics
+	 */
 	public double getMeanServiceTime() {
 		return meanServiceTime;
 	}
 
-	/** Return the maximum simulated service time. */
+	/** 
+	 * Return the maximum simulated service time.
+	 * 
+	 * @return the statistics
+	 */
 	public double getMaxServiceTime() {
 		return maxServiceTime;
 	}
 
-	/** Return the simulated variance service time. */
+	/** 
+	 * Return the simulated variance service time.
+	 * 
+	 * @return the statistics
+	 */
 	public double getVarServiceTime() {
 		return varServiceTime;
 	}
 
-	/** Return the simulated standard deviation of the service time. */
+	/** 
+	 * Return the simulated standard deviation of the service time.
+	 * 
+	 * @return the statistics
+	 */
 	public double getSDServiceTime() {
 		return sdServiceTime;
 	}
 
 	// ERRORS
 	/**
-	 * Return the error between the simulated and the real mean time of a new
+	 * Return the error between the simulated and the exact mean time of a new
 	 * user arrive.
-	 */
+	 * 
+	 * @param exactMeanArrivalTime
+	 * @return the error measure
+	 */ 
 	public double meanArrivalTimeError(double exactMeanArrivalTime) {
 		meanArrivalTimeError = Math.abs(exactMeanArrivalTime - meanArrivalTime);
 		return meanArrivalTimeError;
 	}
 
 	/**
-	 * Return the error between the simulated and the real variance of the time
+	 * Return the error between the simulated and the exact variance of the time
 	 * of a new user arrive.
-	 */
+	 * 
+	 * @param exactVarArrivalTime
+	 * @return the error measure
+	 */ 
 	public double varArrivalTimeError(double exactVarArrivalTime) {
 		varArrivalTimeError = Math.abs(exactVarArrivalTime - varArrivalTime);
 		return varArrivalTimeError;
 	}
 
 	/**
-	 * Return the error between the simulated and the real standard deviation of
+	 * Return the error between the simulated and the exact standard deviation of
 	 * the time of a new user arrive.
-	 */
+	 * 
+	 * @param exactSDArrivalTime
+	 * @return the error measure
+	 */ 
 	public double sdArrivalTimeError(double exactSDArrivalTime) {
 		sdArrivalTimeError = Math.abs(exactSDArrivalTime - sdArrivalTime);
 		return sdArrivalTimeError;
 	}
 
 	/**
-	 * Return the error between the simulated and the real maximum service time.
-	 */
+	 * Return the error between the simulated and the exact maximum service time.
+	 * 
+	 * @param exactMaxServiceTime
+	 * @return the error measure
+	 */ 
 	public double maxServiceTimeError(double exactMaxServiceTime) {
 		maxServiceTimeError = Math.abs(exactMaxServiceTime - maxServiceTime);
 		return maxServiceTimeError;
 	}
 
 	/**
-	 * Return the error between the simulated and the real mean service time.
-	 */
+	 * Return the error between the simulated and the exact mean service time.
+	 * 
+	 * @param exactMeanServiceTime
+	 * @return the error measure
+	 */ 
 	public double meanServiceTimeError(double exactMeanServiceTime) {
 		meanServiceTimeError = Math.abs(exactMeanServiceTime - meanServiceTime);
 		return meanServiceTimeError;
 	}
 
 	/**
-	 * Return the error between the simulated and the real variance service
+	 * Return the error between the simulated and the exact variance service
 	 * time.
-	 */
+	 * 
+	 * @param exactVarServiceTime
+	 * @return the error measure
+	 */ 
 	public double varServiceTimeError(double exactVarServiceTime) {
 		varServiceTimeError = Math.abs(exactVarServiceTime	- varServiceTime);
 		return varServiceTimeError;
 	}
 
 	/**
-	 * Return the error between the simulated and the real standard deviation of
+	 * Return the error between the simulated and the exact standard deviation of
 	 * the service time.
-	 */
+	 * 
+	 * @param exactSDServiceTime
+	 * @return the error measure
+	 */ 
 	public double sdServiceTimeError(double exactSDServiceTime) {
 		sdServiceTimeError = Math.abs(exactSDServiceTime - sdServiceTime);
 		return sdServiceTimeError;

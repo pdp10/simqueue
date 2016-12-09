@@ -34,9 +34,12 @@ public class ExponentialVariable extends RandomVariable {
     // parameter b of expVar
     private double expVar_b = 0.0d;
 	
-    /** Construct an exponential stochastic variable with parameter b.
-     *  b parameter must be  > 0. 
-     *	@throws ExponentialException if b < 0. */    
+    /** 
+     * Construct an exponential stochastic variable with parameter b.
+     * b parameter must be  > 0.
+     *  
+     * @throws ExponentialException if b < 0. 
+     */    
 	public ExponentialVariable(double b)  throws ExponentialException  {
         if( b > 0 ) {
             expVar_b = b;
@@ -56,7 +59,7 @@ public class ExponentialVariable extends RandomVariable {
 		return expVar_b;
 	}
 
-	/** Return the next value for this random variable. */
+	/** {@inheritDoc} */
 	public double getNext() {
         //generate exponential stochastic variable
         return - ( Math.log( 1-rand.nextDouble() ) / expVar_b );

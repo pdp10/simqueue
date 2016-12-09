@@ -27,16 +27,26 @@ package org.simqueue.exception;
 
 /** Exception when it is impossible to initialise a exponential random variable. */
 public class ExponentialException extends Exception {
+	
 	private static final long serialVersionUID = 2296280104480719115L;
-	/* Default constructor. */
+	
+	/** Default constructor. */
     public ExponentialException() { 
         this("ExponentialException"); 
     }
-    /* Constructor. */
+
+    /** 
+     * Constructor.
+     * @param s
+     */ 
     public ExponentialException(String s) { 
         super(s); 
     }
-    /* Return the message of this exception. */
+    
+    /** 
+     * Return the message of this exception.
+     * @return message
+     */
     public String getMessage() {
         return "Parameter b mnust be > 0 .";
     } 

@@ -28,15 +28,24 @@ package org.simqueue.exception;
 /** Exception when it is impossible to initialise a triangular random variable. */
 public class TriangularException extends Exception {
 	private static final long serialVersionUID = 6875008773526834602L;
-	/* Default constructor. */
+	
+	/** Default constructor. */
     public TriangularException() { 
         this("TriangularException"); 
     }
-    /* Constructor. */
+    
+    /** 
+     * Constructor.
+     * @param s
+     */
     public TriangularException(String s) { 
         super(s); 
     }
-    /* Return the message of this exception. */
+    
+    /** 
+     * Return the message of this exception.
+     * @return message
+     */
     public String getMessage() {
         return "Parameters must be a <= m <= b and a < b .";
     } 

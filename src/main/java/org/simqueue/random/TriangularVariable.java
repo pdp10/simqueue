@@ -37,8 +37,11 @@ public class TriangularVariable extends RandomVariable {
 	// parameter b of triVar
 	private double triVar_b = 0.0d;
 	
-    /** Construct a triangular stochastic variable with parameters a, m, and b, such that a <= m <= b and a < b. 
-     *  @throws TriangularException if not a <= m <= b or not a < b. */
+    /** 
+     * Construct a triangular stochastic variable with 
+     * parameters a, m, and b, such that a <= m <= b and a < b. 
+     * 
+     * @throws TriangularException if not a <= m <= b or not a < b. */
 	public TriangularVariable( double a, double m, double b ) throws TriangularException {
         if( a <= m && m <= b && a < b ) {
             triVar_a = a;
@@ -52,7 +55,7 @@ public class TriangularVariable extends RandomVariable {
         }
 	}
 	
-	/** Return the next value for this random variable. */
+	/** {@inheritDoc} */
 	public double getNext() {
         //generate triangular stochastic variable
         double y = rand.nextDouble();

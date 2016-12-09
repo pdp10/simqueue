@@ -42,6 +42,8 @@ public class Main {
 	 * The programs requests the queue size and the parameters for the two used
 	 * stochastic variables: 1) triangular variable; 2) exponential variable.
 	 * Then, the stochastic history is generated and shown.
+	 * 
+	 * @param args the report file name
 	 */
 	public static void main(String[] args) {
 

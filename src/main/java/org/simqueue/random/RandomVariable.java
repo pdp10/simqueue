@@ -37,7 +37,11 @@ public abstract class RandomVariable {
     private double theoVar = 0.0d;
     private double theoSD = 0.0d;
 	
-	/** Return the next value for this random variable. */
+	/** 
+	 * Return the next value for this random variable. 
+	 * 
+	 * @return the next sampled value.
+	 */
 	public abstract double getNext();
 	
 	/**
