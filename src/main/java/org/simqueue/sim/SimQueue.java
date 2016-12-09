@@ -80,13 +80,14 @@ public class SimQueue {
 
     
     /** 
-     * Constructor. Build a queue of size _n.
+     * Constructor. Build a queue of size queueLength.
      * 
-     * @throws QueueSimulationException if _n < 1. 
+     * @param queueLength the length of the queue
+     * @throws QueueSimulationException if queueLength < 1. 
      */
-    public SimQueue(int _n) throws SimQueueException{
-        if( _n > 0 ) {
-            totalClientsToServe = _n;
+    public SimQueue(int queueLength) throws SimQueueException{
+        if( queueLength > 0 ) {
+            totalClientsToServe = queueLength;
             queue = new double[3][totalClientsToServe];
             try {
             	expVar = new ExponentialVariable(1);
@@ -101,19 +102,24 @@ public class SimQueue {
     }    
 
     /** 
-     * Constructor. Build a queue of size _n. 
+     * Constructor. Build a queue of size queueLength. 
      * 
-     * @throws QueueSimulationException if _n < 1. 
-     * @throws ExponentialException if expB < 0. 
+     * @param queueLength the length of the queue
+     * @param lambda the lambda parameter
+     * @param a the a parameter (min)
+     * @param b the m parameter (mode)
+     * @param c the b parameter (max)
+     * @throws QueueSimulationException if queueLength < 1. 
+     * @throws ExponentialException if expLambda < 0. 
      * @throws TriangularException if not a <= m <= b or not a < b.
      */
-    public SimQueue(int _n, double expB, double triA, double triM, double triB) 
+    public SimQueue(int queueLength, double lambda, double a, double m, double b) 
     		throws SimQueueException, ExponentialException, TriangularException {
-        if( _n > 0 ) {
-            totalClientsToServe = _n;
+        if( queueLength > 0 ) {
+            totalClientsToServe = queueLength;
             queue = new double[3][totalClientsToServe];
-            expVar = new ExponentialVariable(expB);
-            triVar = new TriangularVariable(triA, triM, triB);
+            expVar = new ExponentialVariable(lambda);
+            triVar = new TriangularVariable(a, m, b);
         } else
             throw new SimQueueException();
     }
@@ -121,19 +127,23 @@ public class SimQueue {
     /** 
      * Set the exponential stochastic variable simulating the client arrival time. 
      * 
-     * @throws ExponentialException if expB < 0. 
+     * @param lambda the lambda parameter
+     * @throws ExponentialException if lambda < 0. 
      */
-    public void setExponentialVariable(double expB) throws ExponentialException {
-    	expVar = new ExponentialVariable(expB);
+    public void setExponentialVariable(double lambda) throws ExponentialException {
+    	expVar = new ExponentialVariable(lambda);
     }
     
     /** 
      * Set the triangular stochastic variable simulating the client service time. 
      * 
+     * @param a the a parameter (min)
+     * @param b the m parameter (mode)
+     * @param c the b parameter (max)
      * @throws TriangularException if not a <= m <= b or not a < b.
      */
-    public void setTriangularVariable(double triA, double triM, double triB) throws TriangularException {
-    	triVar = new TriangularVariable(triA, triM, triB);
+    public void setTriangularVariable(double a, double m, double b) throws TriangularException {
+    	triVar = new TriangularVariable(a, m, b);
     }
     
     /** Return the queue of simulated events */
@@ -209,7 +219,7 @@ public class SimQueue {
 			       "\n 1- Mean arrive time: \t\t" + expVar.getTheoreticalMean() + " min" +
 			       "\n 2- Variance arrive time: \t" + expVar.getTheoreticalVar() + " min^2" +
 			       "\n 3- Std dev arrive time:  \t" + expVar.getTheoreticalSD() + " min" +
-			       "\n 4- Maximum service time: \t" + triVar.getb() + " min" +
+			       "\n 4- Maximum service time: \t" + triVar.getB() + " min" +
 			       "\n 5- Mean service time:\t\t" + triVar.getTheoreticalMean() + " min" +
 			       "\n 6- Variance service time:\t" + triVar.getTheoreticalVar() + " min^2" +
 			       "\n 7- Std dev service time: \t" + triVar.getTheoreticalSD() + " min";
@@ -243,7 +253,7 @@ public class SimQueue {
                 "\n 1- Mean arrive time error:  \t\t" + stats.meanArrivalTimeError(expVar.getTheoreticalMean()) + " min " +
                 "\n 2- Variance arrive time error:  \t" + stats.varArrivalTimeError(expVar.getTheoreticalVar()) + " min^2 " +
                 "\n 3- Std dev arrive time error:   \t" + stats.sdArrivalTimeError(expVar.getTheoreticalSD()) + " min " +
-                "\n 4- Maximum service time error:  \t" + stats.maxServiceTimeError(triVar.getb()) + " min " +
+                "\n 4- Maximum service time error:  \t" + stats.maxServiceTimeError(triVar.getB()) + " min " +
                 "\n 5- Mean service time error: \t\t" + stats.meanServiceTimeError(triVar.getTheoreticalMean()) + " min " +
                 "\n 6- Variance service time error: \t" + stats.varServiceTimeError(triVar.getTheoreticalVar()) + " min^2 " +
                 "\n 7- Std dev service time error:  \t" + stats.sdServiceTimeError(triVar.getTheoreticalSD()) + " min ";

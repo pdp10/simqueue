@@ -37,7 +37,8 @@ public class ExponentialVariable extends RandomVariable {
     /** 
      * Construct an exponential stochastic variable with parameter expLambda.
      * expLambda parameter must be  > 0.
-     *  
+     * 
+     * @param expLambda the lambda parameter
      * @throws ExponentialException if expLambda < 0. 
      */    
 	public ExponentialVariable(double expLambda)  throws ExponentialException  {

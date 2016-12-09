@@ -41,7 +41,11 @@ public class TriangularVariable extends RandomVariable {
      * Construct a triangular stochastic variable with 
      * parameters a, m, and b, such that a <= m <= b and a < b. 
      * 
-     * @throws TriangularException if not a <= m <= b or not a < b. */
+     * @param triA the a parameter (min)
+     * @param triM the m parameter (mode)
+     * @param triB the b parameter (max)
+     * @throws TriangularException if not a <= m <= b or not a < b. 
+     */
 	public TriangularVariable( double triA, double triM, double triB ) throws TriangularException {
         if( triA <= triM && triM <= triB && triA < triB ) {
             a = triA;
