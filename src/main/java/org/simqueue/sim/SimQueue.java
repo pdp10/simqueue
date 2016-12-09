@@ -61,19 +61,44 @@ public class SimQueue {
     // infinite
     public static final double MAX_SIM_TIME = Double.MAX_VALUE; 
     
-    // exponential stochastic variable
-    private ExponentialVariable expVar = null;
+    /** Exponential stochastic variable simulating the client arrival time. */
+    protected ExponentialVariable expVar = null;
 
-    // triangular stochastic variable
-    private TriangularVariable triVar = null;      
+    /** Triangular stochastic variable simulating the client service time. */
+    protected TriangularVariable triVar = null;      
     
-    BasicStatistics stats = new BasicStatistics();
+    /** Statistics for this queue */
+    protected BasicStatistics stats = new BasicStatistics();
 
+    
+    /** 
+     * Constructor. Build a queue of size _n.
+     * 
+     * @throws QueueSimulationException if _n < 1. 
+     */
+    public SimQueue(int _n) throws SimQueueException{
+        if( _n > 0 ) {
+            n = _n;
+            queue = new double[3][n];
+            try {
+            	expVar = new ExponentialVariable(1);
+            	triVar = new TriangularVariable(0, 1, 2);
+            } catch(ExponentialException e) { 
+            	// we won't ever reach this
+            } catch(TriangularException e) { 
+            	// we won't ever reach this
+            }
+        } else
+            throw new SimQueueException();
+    }    
 
-    /** Constructor. Build a queue of size _n. 
+    /** 
+     * Constructor. Build a queue of size _n. 
+     * 
+     * @throws QueueSimulationException if _n < 1. 
      * @throws ExponentialException if expB < 0. 
      * @throws TriangularException if not a <= m <= b or not a < b.
-     * @throws QueueSimulationException if _n < 1. */
+     */
     public SimQueue(int _n, double expB, double triA, double triM, double triB) 
     		throws SimQueueException, ExponentialException, TriangularException {
         if( _n > 0 ) {
@@ -84,18 +109,24 @@ public class SimQueue {
         } else
             throw new SimQueueException();
     }
-
-    /** Return the arrival time for the next client. 
-     *  This event is extracted from an exponential distribution. */
-    public double clientArrives() {
-    	return expVar.getNext();
+    
+    /** 
+     * Set the exponential stochastic variable simulating the client arrival time. 
+     * 
+     * @throws ExponentialException if expB < 0. 
+     */
+    public void setExponentialVariable(double expB) throws ExponentialException {
+    	expVar = new ExponentialVariable(expB);
     }
-
-    /** Return the time the next client is being served. 
-     *  This event is extracted from a triangular distribution. */
-    public double clientIsBeingServed() {
-    	return triVar.getNext();
-    }    
+    
+    /** 
+     * Set the triangular stochastic variable simulating the client service time. 
+     * 
+     * @throws TriangularException if not a <= m <= b or not a < b.
+     */
+    public void setTriangularVariable(double triA, double triM, double triB) throws TriangularException {
+    	triVar = new TriangularVariable(triA, triM, triB);
+    }
     
     /** Return the queue of simulated events */
     public double[][] getQueue() { 
@@ -106,9 +137,18 @@ public class SimQueue {
     public int getN() { 
         return n; 
     }
-
-    /** Run a simulated queue. 
-     *  This method creates an stochastic history of a simulated queue. */
+    
+    /**
+     * Return the statistics for this simulation
+     * @return statistics
+     */
+    public BasicStatistics getStatistics() {
+    	return stats;
+    }
+    
+    /** 
+     * Create a stochastic queue simulation.
+     */
     public void run() {
         boolean stop = false;
         while( !stop ) {
@@ -147,14 +187,7 @@ public class SimQueue {
         }
         
         // calculate the statistics
-        stats.setMeanArrivalTime(queue);
-        stats.setVarArrivalTime(queue);
-        stats.setSDArrivalTime(queue);
-        stats.setMaxServiceTime(queue);
-        stats.setMinServiceTime(queue);
-        stats.setMeanServiceTime(queue);
-        stats.setVarServiceTime(queue);
-        stats.setSDServiceTime(queue);
+        computeStatistics();
     }
 
     /** 
@@ -224,6 +257,40 @@ public class SimQueue {
             }
         }
         return s;
+    }
+    
+    /** 
+     * Return the arrival time for the next client. 
+     * This event is extracted from an exponential distribution. 
+     * 
+     * @return the time the next client arrives.
+     */
+    protected double clientArrives() {
+    	return expVar.getNext();
+    }
+
+    /** 
+     * Return the time the next client is being served. 
+     * This event is extracted from a triangular distribution.
+     * 
+     * @return the time the next client is being served.
+     */
+    protected double clientIsBeingServed() {
+    	return triVar.getNext();
+    }    
+    
+    /** 
+     * Compute the statistics for this simulation.
+     */
+    protected void computeStatistics() {
+        stats.setMeanArrivalTime(queue);
+        stats.setVarArrivalTime(queue);
+        stats.setSDArrivalTime(queue);
+        stats.setMaxServiceTime(queue);
+        stats.setMinServiceTime(queue);
+        stats.setMeanServiceTime(queue);
+        stats.setVarServiceTime(queue);
+        stats.setSDServiceTime(queue);
     }
 
 } // end class SimQueue
