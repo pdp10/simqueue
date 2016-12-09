@@ -89,17 +89,19 @@ $ mvn package
 ```
 
 ### A simulation
+Configuration (file: parameters.txt):
+```
+clients_num=50
+clients_per_hour=25
+most_common_service_time=3.5
+maximum_service_time=10.0
+```
+
+Simulation (output file: simqueue.csv)
 ```
 $ java -jar target/simqueue-devel-jar-with-dependencies.jar 
 
-simqueue: a queue simulator based on stochastic time events.
-
-Number of clients to simulate: 50
-Mean number of clients per hour: 25
-Most common service time [min] (the mode): 3.5
-Longest service time [min]: 10
-
-Stochastic generation of Arrival/Service/Leaving times for this simulated queue (FIFO):
+simqueue: a FIFO queue simulator based on stochastic time events.
 
 Client  Arrival Time (min)      Serving Time (min)      Leaving Time (min)
 ------  ------------------      ------------------      ------------------
