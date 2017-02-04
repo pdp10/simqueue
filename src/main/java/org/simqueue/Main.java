@@ -54,8 +54,10 @@ public class Main {
     String fileout = "simqueue.csv";
     String filein = "parameters.txt";
     Properties prop = null;
+    boolean screenprint = true;
     if (args.length > 0) {
       fileout = args[0];
+      screenprint = false;
       if (args.length > 1) {
         filein = args[1];
       }
@@ -63,7 +65,7 @@ public class Main {
     try {
       prop = PropertiesManager.load(filein);
     } catch (IOException e1) {
-      System.err.println("Input file not found.");
+      System.err.println("Error: Input file not found.");
       System.err.println("simqueue syntax:\n" + "java -jar simqueue.jar [simqueue.csv] [parameters.txt]\n\n"
         + "simqueue.csv: output file\n"
         + "parameters.txt: configuration file (if this is found, it is parsed automatically)\n\n"
@@ -81,43 +83,47 @@ public class Main {
     if (prop.getProperty("clients_num") != null) {
       num = Integer.parseInt(prop.getProperty("clients_num"));
     } else {
-      System.err.println("`clients_num` not found in configuration file. Exit.");
+      System.err.println("Error: `clients_num` not found in configuration file. Exit.");
       System.exit(1);
     }
     if (prop.getProperty("clients_per_hour") != null) {
       expVar_lambda = Double.parseDouble(prop.getProperty("clients_per_hour")) / 60.0d;
     } else {
-      System.err.println("`clients_per_hour` not found in configuration file. Exit.");
+      System.err.println("Error: `clients_per_hour` not found in configuration file. Exit.");
       System.exit(1);
     }
     if (prop.getProperty("most_common_service_time") != null) {
       triVar_m = Double.parseDouble(prop.getProperty("most_common_service_time"));
     } else {
-      System.err.println("`most_common_service_time` not found in configuration file. Exit.");
+      System.err.println("Error: `most_common_service_time` not found in configuration file. Exit.");
       System.exit(1);
     }
     if (prop.getProperty("maximum_service_time") != null) {
       triVar_b = Double.parseDouble(prop.getProperty("maximum_service_time"));
     } else {
-      System.err.println("`maximum_service_time` not found in configuration file. Exit.");
+      System.err.println("Error: `maximum_service_time` not found in configuration file. Exit.");
       System.exit(1);
     }
     
-    System.out.print("\nsimqueue: a FIFO queue simulator based on stochastic time events.\n\n");
+    if(screenprint) {
+    	System.out.print("\nsimqueue: a FIFO queue simulator based on stochastic time events.\n\n");
+    }
     try {
       Q = new SimQueue(num, expVar_lambda, triVar_a, triVar_m, triVar_b);
       start = Calendar.getInstance();
       Q.run();
       end = Calendar.getInstance();
-      System.out.println(Q.getHistoryString());
-      System.out.println();
-      System.out.println(Q.getTheoreticalStatisticsString());
-      System.out.println();
-      System.out.println(Q.getSimulatedStatisticsString());
-      System.out.println();
-      System.out.println(Q.getErrorStatisticsString());
-      System.out.println();
-      System.out.println(ElapsedTime.compute(start, end));
+      if(screenprint) {
+	      System.out.println(Q.getHistoryString());
+	      System.out.println();
+	      System.out.println(Q.getTheoreticalStatisticsString());
+	      System.out.println();
+	      System.out.println(Q.getSimulatedStatisticsString());
+	      System.out.println();
+	      System.out.println(Q.getErrorStatisticsString());
+	      System.out.println();
+	      System.out.println(ElapsedTime.compute(start, end));
+      }
       // get the queue of events (arrival, service, and leave times)
       double[][] history = Q.getHistory();
       // retrieve the arrival time samples and calculate the CDF
@@ -126,18 +132,20 @@ public class Main {
       // retrieve the service time samples
       Double[] serviceTimeSamples = ArrayUtils.toObject(Q.getServiceTimesDistrib());
       Arrays.sort(serviceTimeSamples);
-      // write the queue to file
-      try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileout, false)))) {
-        out.println("Time\tArrivalTime\tServiceTime\tLeavingTime\tArrivalTimeSamples\tServiceTimeSamples");
-        for (int j = 0; j < history[0].length; j++) {
-          out.println(j + "\t" + history[0][j] + "\t" + history[1][j] + "\t" + history[2][j] + "\t"
-            + arrivalTimeSamples[j] + "\t" + serviceTimeSamples[j]);
-        }
-      } catch (IOException e) {
-        System.err.println(e);
+      if(!screenprint) {
+	      // write the queue to file
+	      try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fileout, false)))) {
+	        out.println("Time\tArrivalTime\tServiceTime\tLeavingTime\tArrivalTimeSamples\tServiceTimeSamples");
+	        for (int j = 0; j < history[0].length; j++) {
+	          out.println(j + "\t" + history[0][j] + "\t" + history[1][j] + "\t" + history[2][j] + "\t"
+	            + arrivalTimeSamples[j] + "\t" + serviceTimeSamples[j]);
+	        }
+	      } catch (IOException e) {
+	        System.err.println(e);
+	      }
       }
     } catch (NumberFormatException e) {
-      System.out.println("Error: input must be an integer");
+      System.err.println("Error: input must be an integer");
     } catch (SimQueueException e) {
       e.getMessage();
       e.printStackTrace();
